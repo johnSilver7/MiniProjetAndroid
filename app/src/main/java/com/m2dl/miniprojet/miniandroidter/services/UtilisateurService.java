@@ -7,11 +7,11 @@ import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
  */
 public class UtilisateurService {
 
-    public boolean enregistrer(Utilisateur utilisateur) {
+    public static boolean enregistrer(Utilisateur utilisateur) {
         return true;
     }
 
-    public Utilisateur connecter(String pseudo, String mdp) {
+    public static Utilisateur connecter(String pseudo, String mdp) {
         return null;
     }
 

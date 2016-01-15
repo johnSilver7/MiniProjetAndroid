@@ -36,13 +36,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Valider"
-                android:id="@+id/bValider" />
+                android:id="@+id/activite_inscription_bValider"
+                android:onClick="validerInscription"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Annuler"
-                android:id="@+id/bAnnuler" />
+                android:id="@+id/activite_inscription_bAnnuler"
+                android:onClick="annulerInscription"/>
         </LinearLayout>
 
     </LinearLayout>
