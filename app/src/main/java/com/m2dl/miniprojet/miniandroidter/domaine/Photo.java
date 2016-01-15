@@ -11,4 +11,5 @@ public class Photo {
     private Tag tag;
     private Zone zone;
     private Utilisateur posteur;
+
 }

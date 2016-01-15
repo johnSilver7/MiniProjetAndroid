@@ -5,4 +5,5 @@ package com.m2dl.miniprojet.miniandroidter.domaine;
  */
 public enum Tag {
     RECYCLAGE, DEGRADATION, FUITEEAU;
+
 }

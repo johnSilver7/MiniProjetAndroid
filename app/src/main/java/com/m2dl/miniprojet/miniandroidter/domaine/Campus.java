@@ -9,4 +9,5 @@ public class Campus {
     private String carte;
     private Point[] limites;
     private List<Photo> photos;
+
 }

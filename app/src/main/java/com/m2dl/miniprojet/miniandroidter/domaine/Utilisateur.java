@@ -6,4 +6,5 @@ package com.m2dl.miniprojet.miniandroidter.domaine;
 public class Utilisateur {
     private String pseudo;
     private String mdp;
+
 }

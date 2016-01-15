@@ -6,4 +6,5 @@ package com.m2dl.miniprojet.miniandroidter.domaine;
 public class Zone {
     private String nom;
     private String salle;
+
 }

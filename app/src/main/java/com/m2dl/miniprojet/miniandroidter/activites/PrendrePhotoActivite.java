@@ -12,5 +12,6 @@ public class PrendrePhotoActivite extends Activity {
         super.onCreate(savedInstanceState);
         //TODO
         setContentView(R.layout.activite_prendre_photo);
+
     }
 }

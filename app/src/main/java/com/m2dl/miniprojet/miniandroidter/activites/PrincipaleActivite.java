@@ -12,5 +12,6 @@ public class PrincipaleActivite extends Activity {
         super.onCreate(savedInstanceState);
         //TODO
         setContentView(R.layout.activite_principale);
+
     }
 }
