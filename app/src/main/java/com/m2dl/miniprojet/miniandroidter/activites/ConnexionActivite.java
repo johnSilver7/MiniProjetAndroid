@@ -61,5 +61,7 @@ public class ConnexionActivite extends Activity {
             builder.setNeutralButton("ok", null);
             eMdp.setText("");
         }
+
+        builder.show();
     }
 }
