@@ -1,2 +1,0 @@
-# MiniProjetAndroid
-Cours TER
