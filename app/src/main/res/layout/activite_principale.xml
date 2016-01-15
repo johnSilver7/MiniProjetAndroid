@@ -5,17 +5,24 @@
     tools:context=".PrincipaleActivite">
 
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="sinscrire"
-        android:id="@+id/button3"
-        android:onClick="onClickSinscrire" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Se connecter"
-        android:id="@+id/button"
-        android:onClick="seConnecter" />
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sinscrire"
+            android:id="@+id/button2"
+            android:onClick="onClickSinscrire" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="se connecter"
+            android:id="@+id/button"
+            android:onClick="seConnecter" />
+    </LinearLayout>
+
 </RelativeLayout>
