@@ -15,6 +15,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".CampusActivite">
+        </activity>
+        <activity
+            android:name=".ConnexionActivite">
+        </activity>
+        <activity
+            android:name=".InscriptionActivite">
+        </activity>
+        <activity
+            android:name=".PrendrePhotoActivite">
+        </activity>
     </application>
 
 </manifest>

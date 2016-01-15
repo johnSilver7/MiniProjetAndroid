@@ -7,7 +7,7 @@ import java.io.File;
  */
 public class ServeurService {
 
-    public boolean stocker(String lienFichier) {
+    public boolean stockerFichier(String lienFichier) {
         return false;
     }
 

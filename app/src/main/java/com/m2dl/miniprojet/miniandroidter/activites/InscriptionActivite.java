@@ -12,6 +12,7 @@ public class InscriptionActivite extends Activity {
         super.onCreate(savedInstanceState);
         //TODO
         setContentView(R.layout.activite_inscription);
-
     }
+
+
 }
