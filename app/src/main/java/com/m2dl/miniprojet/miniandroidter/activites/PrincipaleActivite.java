@@ -20,4 +20,8 @@ public class PrincipaleActivite extends Activity {
     public void onClickSinscrire(View view) {
         startActivity(new Intent(this, InscriptionActivite.class));
     }
+
+    public void seConnecter(View view) {
+        startActivity(new Intent(this, ConnexionActivite.class));
+    }
 }
