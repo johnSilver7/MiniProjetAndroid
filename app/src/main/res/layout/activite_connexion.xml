@@ -15,7 +15,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/pseudo"
+            android:id="@+id/activite_connexion_pseudo"
             android:hint="Pseudo" />
 
         <EditText
@@ -23,7 +23,7 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:ems="10"
-            android:id="@+id/mdp"
+            android:id="@+id/activite_connexion_mdp"
             android:hint="Mot de passe" />
 
         <LinearLayout
