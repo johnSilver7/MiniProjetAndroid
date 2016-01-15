@@ -26,6 +26,8 @@ public class InscriptionActivite extends Activity {
 
         bValider = (Button) findViewById(R.id.activite_inscription_bValider);
         bAnuller = (Button) findViewById(R.id.activite_inscription_bAnnuler);
+        ePseudo = (EditText) findViewById(R.id.activite_insciption_ePseudo);
+        eMdp = (EditText) findViewById(R.id.activite_insciption_eMdp);
     }
 
     public void validerInscription(View view) {
@@ -49,7 +51,7 @@ public class InscriptionActivite extends Activity {
             builder.setMessage("Echec d'inscription !");
             builder.setNeutralButton("ok", null);
         }
-
+        builder.show();
     }
 
     public void annulerInscription(View view) {

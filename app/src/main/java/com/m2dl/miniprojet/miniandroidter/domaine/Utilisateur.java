@@ -7,6 +7,8 @@ public class Utilisateur {
     private String pseudo;
     private String mdp;
 
+    public static Utilisateur utilisateurConnecte = null;
+
     public Utilisateur(String pseudo, String mdp) {
         this.pseudo = pseudo;
         this.mdp = mdp;
