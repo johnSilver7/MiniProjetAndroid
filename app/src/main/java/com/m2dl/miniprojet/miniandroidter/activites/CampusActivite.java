@@ -12,6 +12,5 @@ public class CampusActivite extends Activity {
         super.onCreate(savedInstanceState);
         //TODO
         setContentView(R.layout.activite_campus);
-
     }
 }
