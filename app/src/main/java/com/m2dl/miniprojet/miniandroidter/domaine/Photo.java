@@ -12,4 +12,7 @@ public class Photo {
     private Zone zone;
     private Utilisateur posteur;
 
+    public static String PATH;
+    public final static String NOM_PHOTO_TEMP = "photo.png";
+
 }

@@ -8,7 +8,7 @@ import java.io.File;
 public class ServeurService {
 
     public boolean stockerFichier(String lienFichier) {
-        return false;
+        return true;
     }
 
     public File recuperer(String chemin) {

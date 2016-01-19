@@ -12,6 +12,13 @@
         android:layout_height="wrap_content"
         android:gravity="center">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Inscription"
+            android:id="@+id/textView3" />
+
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
