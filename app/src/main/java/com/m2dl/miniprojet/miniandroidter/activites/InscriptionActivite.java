@@ -16,30 +16,30 @@ import com.m2dl.miniprojet.miniandroidter.services.UtilisateurService;
  */
 public class InscriptionActivite extends Activity {
 
-    private Button bValider, bAnuller;
-    private EditText ePseudo, eMdp;
+    private EditText ePseudo, eMdp, eMdp2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activite_inscription);
 
-        bValider = (Button) findViewById(R.id.activite_inscription_bValider);
-        bAnuller = (Button) findViewById(R.id.activite_inscription_bAnnuler);
         ePseudo = (EditText) findViewById(R.id.activite_insciption_ePseudo);
         eMdp = (EditText) findViewById(R.id.activite_insciption_eMdp);
+        eMdp2 = (EditText) findViewById(R.id.activite_inscription_eMdp2);
     }
 
     public void validerInscription(View view) {
         String pseudo = ePseudo.getText().toString();
         String mdp = eMdp.getText().toString();
-
+        String mdp2 = eMdp2.getText().toString();
         Utilisateur utilisateur = new Utilisateur(pseudo, mdp);
-        boolean succes = UtilisateurService.enregistrer(utilisateur);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        if (succes) {
+        if (!mdp.equals(mdp2)) {
+            builder.setMessage("Mots de passe différents.");
+            builder.setNeutralButton("ok", null);
+        } else if (UtilisateurService.enregistrer(utilisateur)) {
             builder.setMessage("Inscription réussie !");
             builder.setNeutralButton("ok", new DialogInterface.OnClickListener() {
                 @Override

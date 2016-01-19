@@ -10,6 +10,7 @@ import android.view.View;
 import com.m2dl.miniprojet.miniandroidter.domaine.Campus;
 import com.m2dl.miniprojet.miniandroidter.domaine.Photo;
 import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
+import com.m2dl.miniprojet.miniandroidter.domaine.Zone;
 
 /**
  * Created by yan on 15/01/16.
@@ -30,6 +31,15 @@ public class PrincipaleActivite extends Activity {
                     Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
+
+        recupererBaseDonnees();
+    }
+
+    private void recupererBaseDonnees() {
+        //TODO a modifier et completer
+        Zone.ajouterZone(new Zone("zone1", "salle1"));
+        Zone.ajouterZone(new Zone("zone2", "salle45"));
+        Zone.ajouterZone(new Zone("zone3", "salle23"));
     }
 
     public void onClickAfficherCampus(View view) {
