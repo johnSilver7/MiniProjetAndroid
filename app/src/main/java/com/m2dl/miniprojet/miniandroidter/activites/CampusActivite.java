@@ -28,8 +28,7 @@ public class CampusActivite extends Activity {
 
     private TextView tImageCampus;
     private RelativeLayout layoutImage;
-    private int largeurImage, longueurImage, largeurLayout, longueurLayout;
-    private final static float RAPPORT_LARGEUR_LONGUEUR_IMAGE_CAMPUS = 1.12465374f;
+    private CampusImage campusImage;
 
     private int largeurEcran, longueurEcran;
 
@@ -68,34 +67,17 @@ public class CampusActivite extends Activity {
     }
 
     private void afficherCarte() {
-        Drawable drawableCampus = getResources().getDrawable(R.drawable.campus);
-
-        largeurLayout = largeurEcran * 9 / 10;
-        longueurLayout = (int) ((float) largeurLayout / RAPPORT_LARGEUR_LONGUEUR_IMAGE_CAMPUS);
+        int largeurLayout = largeurEcran * 9 / 10;
+        int longueurLayout = (int) ((float) largeurLayout /
+                CampusImage.RAPPORT_LARGEUR_LONGUEUR_IMAGE_CAMPUS);
         layoutImage.getLayoutParams().width = largeurLayout;
         layoutImage.getLayoutParams().height = longueurLayout;
 
         tImageCampus.setText("");
-        largeurImage = largeurLayout;
-        longueurImage = longueurLayout;
-        tImageCampus.setBackgroundDrawable(drawableCampus);
-        tImageCampus.getLayoutParams().width = largeurImage;
-        tImageCampus.getLayoutParams().height = longueurImage;
-        tImageCampus.setOnTouchListener(onTouchListenerImageCampus);
-    }
+        tImageCampus.setBackgroundDrawable(getResources().getDrawable(R.drawable.campus));
 
-    private View.OnTouchListener onTouchListenerImageCampus = new View.OnTouchListener() {
-        @Override
-        public boolean onTouch(View v, MotionEvent event) {
-            switch (event.getAction()) {
-                case MotionEvent.ACTION_MOVE:
-                    // Deplace la carte
-                    //TODO a finir
-                    break;
-            }
-            return true;
-        }
-    };
+        campusImage = new CampusImage(tImageCampus, largeurLayout, longueurLayout);
+    }
 
     private void afficherSpinnerTag() {
         List<String> listeTagSpinner = new ArrayList<>();

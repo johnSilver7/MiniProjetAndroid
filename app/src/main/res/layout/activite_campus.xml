@@ -23,7 +23,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginTop="20dp"
-            android:id="@+id/activite_campus_layout_image">
+            android:id="@+id/activite_campus_layout_image"
+            android:background="#d0cccc">
 
             <TextView
                 android:layout_width="20dp"
