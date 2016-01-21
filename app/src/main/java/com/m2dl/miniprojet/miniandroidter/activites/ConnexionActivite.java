@@ -42,11 +42,7 @@ public class ConnexionActivite extends Activity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        // TODO A REMETTRE
-        //final Utilisateur utilisateur = UtilisateurService.connecter(pseudo, mdp);
-        //TODO A ENLEVER
-        // Pour tester
-        Utilisateur utilisateur = new Utilisateur("test", "test");
+        final Utilisateur utilisateur = UtilisateurService.connecter(pseudo, mdp);
 
         if (utilisateur != null) {
             Utilisateur.utilisateurConnecte = utilisateur;

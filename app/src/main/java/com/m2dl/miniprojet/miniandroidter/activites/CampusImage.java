@@ -14,6 +14,7 @@ public class CampusImage {
     private int x, y, largeur, longueur;
 
     private float zoom;
+    private int xZoom1, yZoom1, xZoom2, yZoom2;
 
     private boolean twoFingers;
     private int decalageX1, decalageY1, decalageX2, decalageY2;
@@ -64,8 +65,9 @@ public class CampusImage {
                         // Deplace l'image
                         setCoordonnees((int) event.getX(0) - decalageX1,
                                 (int) event.getY(0) - decalageY1);
-                    } else if (event.getPointerCount() == 2) {
+                    } else {
                         // Zoome l'image
+                        //zoomer();
                     }
                     break;
             }
@@ -74,10 +76,17 @@ public class CampusImage {
     };
 
     private void initZoom(int x1, int y1, int x2, int y2) {
-        //TODO
+        xZoom1 = x1;
+        yZoom1 = y1;
+        xZoom2 = x2;
+        yZoom2 = y2;
     }
 
-    public void setCoordonnees(int x, int y) {
+    private void zoomer(int x1, int y1, int x2, int y2) {
+
+    }
+
+    private void setCoordonnees(int x, int y) {
         tImage.setX(this.x = x);
         tImage.setY(this.y = y);
     }
