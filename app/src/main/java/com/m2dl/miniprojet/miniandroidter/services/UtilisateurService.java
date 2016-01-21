@@ -13,12 +13,17 @@ public class UtilisateurService {
 
     public static Utilisateur connecter(String pseudo, String mdp) {
         for (Utilisateur utilisateur: Utilisateur.getListeUtilisateur()) {
+            if (utilisateur.equals(new Utilisateur(pseudo, mdp))) {
+                return utilisateur;
+            }
+        }
+        return null;
+    }
+
+    public static Utilisateur connecter(String pseudo) {
+        for (Utilisateur utilisateur: Utilisateur.getListeUtilisateur()) {
             if (utilisateur.getPseudo().equals(pseudo)) {
-                if (utilisateur.getMdp().equals(mdp)) {
-                    return utilisateur;
-                } else {
-                    return null;
-                }
+                return utilisateur;
             }
         }
         return null;

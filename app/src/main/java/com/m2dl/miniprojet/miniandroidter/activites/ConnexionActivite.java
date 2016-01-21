@@ -7,9 +7,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 
 import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
+import com.m2dl.miniprojet.miniandroidter.services.FichierService;
 import com.m2dl.miniprojet.miniandroidter.services.UtilisateurService;
 
 /**
@@ -18,14 +20,24 @@ import com.m2dl.miniprojet.miniandroidter.services.UtilisateurService;
 public class ConnexionActivite extends Activity {
 
     private EditText eMdp, eLogin;
+    private CheckBox cSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activite_connexion);
 
-        eMdp = (EditText) findViewById(R.id.activite_connexion_pseudo);
-        eLogin = (EditText) findViewById(R.id.activite_connexion_mdp);
+        eLogin = (EditText) findViewById(R.id.activite_connexion_pseudo);
+        eMdp = (EditText) findViewById(R.id.activite_connexion_mdp);
+        cSession = (CheckBox) findViewById(R.id.activite_connexion_box_souvenir);
+    }
+
+    public void garderSessionOuverte() {
+        if (cSession.isChecked()) {
+            FichierService.ecrireDansFichier(eLogin.getText().toString());
+        } else {
+            FichierService.ecrireDansFichier("");
+        }
     }
 
     public void retour(View view) {
@@ -45,6 +57,7 @@ public class ConnexionActivite extends Activity {
         final Utilisateur utilisateur = UtilisateurService.connecter(pseudo, mdp);
 
         if (utilisateur != null) {
+            garderSessionOuverte();
             Utilisateur.utilisateurConnecte = utilisateur;
             builder.setMessage("Vous êtes à présent connecté");
             builder.setNeutralButton("ok", new DialogInterface.OnClickListener() {
