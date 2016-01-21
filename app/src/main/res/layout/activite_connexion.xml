@@ -66,8 +66,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Pas encore inscrit ?"
-            android:id="@+id/textView"
-            android:textColor="#4068f5"
-            android:onClick="onClickPasEncoreInscrit" />
+            android:id="@+id/activite_connexion_textInscription"
+            android:textColor="#4068f5" />
     </LinearLayout>
 </RelativeLayout>

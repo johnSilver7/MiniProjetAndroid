@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.DisplayMetrics;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -31,6 +32,7 @@ import com.m2dl.miniprojet.miniandroidter.domaine.Tag;
 import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
 import com.m2dl.miniprojet.miniandroidter.domaine.Zone;
 import com.m2dl.miniprojet.miniandroidter.outils.DateOutils;
+import com.m2dl.miniprojet.miniandroidter.services.ServeurService;
 
 import org.w3c.dom.Text;
 
@@ -45,6 +47,8 @@ import java.util.List;
 public class PrendrePhotoActivite extends Activity {
 
     private static int largeurEcran, longueurEcran;
+
+    private float yPosDepart;
 
     private static File photoPrise;
     private static Drawable imagePhotoPrise;
@@ -75,6 +79,27 @@ public class PrendrePhotoActivite extends Activity {
         sTag = (Spinner) findViewById(R.id.activite_prendre_photo_spinner_tag);
         sZone = (Spinner) findViewById(R.id.activite_prendre_photo_spinner_zone);
 
+        yPosDepart = tPhoto.getY();
+
+        tPhoto.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                // have same code as onTouchEvent() (for the Activity) above
+
+                int action = event.getActionMasked();
+
+                switch (action) {
+                    case MotionEvent.ACTION_DOWN:
+                        if (imagePhotoPrise == null) {
+                            prendrePhoto();
+                        }
+                }
+
+                return true;
+            }
+        });
+
         afficherPhoto();
         preRemplirLesChamps();
     }
@@ -98,6 +123,12 @@ public class PrendrePhotoActivite extends Activity {
                 this, android.R.layout.simple_spinner_item, listeZoneSpinner));
     }
 
+    public void onClickRecommencer(View v) {
+        imagePhotoPrise = null;
+        afficherPhoto();
+    }
+
+
     public void onClickEnregistrer(View v) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
@@ -107,7 +138,7 @@ public class PrendrePhotoActivite extends Activity {
         } else if (tGeo.getText().equals(GEOLOCALISE_NON)) {
             builder.setMessage("Vous devez être géolocalisé.");
             builder.setNeutralButton("OK", null);
-        } else if (((String) sZone.getSelectedItem()).equals(TITRE_CREATION_NOUVELLE_ZONE)) {
+        } else if (sZone.getSelectedItem().equals(TITRE_CREATION_NOUVELLE_ZONE)) {
             final EditText eTitreZone = new EditText(this);
             builder.setView(getFormulaireCreationZone(eTitreZone));
             builder.setNegativeButton("Annuler", null);
@@ -123,7 +154,10 @@ public class PrendrePhotoActivite extends Activity {
                 }
             });
         } else {
-            //TODO enregistrer l'image & la zone
+            //TODO enregistrer l'image et/ou la zone
+            ServeurService serveurService = new ServeurService();
+            boolean sucess = serveurService.stockerFichier("toto");
+
             builder.setMessage("Endroit enregistré avec succès !");
             builder.setNegativeButton("Retour", new DialogInterface.OnClickListener() {
                 @Override
@@ -139,6 +173,7 @@ public class PrendrePhotoActivite extends Activity {
                 }
             });
         }
+
         builder.show();
     }
 
@@ -188,12 +223,6 @@ public class PrendrePhotoActivite extends Activity {
         return layoutPere;
     }
 
-    public void onClickPhoto(View v) {
-        if (imagePhotoPrise == null) {
-            prendrePhoto();
-        }
-    }
-
     private void prendrePhoto() {
         photoPrise = new File(Photo.PATH + Photo.NOM_PHOTO_TEMP);
         Uri fileUri = Uri.fromFile(photoPrise);
@@ -219,6 +248,7 @@ public class PrendrePhotoActivite extends Activity {
         int longueurPhoto = longueurEcran * 7 / 12;
 
         if (imagePhotoPrise == null) {
+            tPhoto.setY(longueurEcran / 12);
             tPhoto.setRotation(0);
             tPhoto.getLayoutParams().height = longueurPhoto;
             tPhoto.getLayoutParams().width = largeurPhoto;

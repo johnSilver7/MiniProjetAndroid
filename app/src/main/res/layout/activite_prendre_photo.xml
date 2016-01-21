@@ -22,7 +22,6 @@
         android:id="@+id/activite_prendre_photo_view_photo"
         android:layout_below="@id/activite_prendre_photo_titre"
         android:layout_centerHorizontal="true"
-        android:onClick="onClickPhoto"
         android:textColor="#4068f5"
         android:gravity="center"
         android:layout_marginTop="20dp" />
@@ -116,6 +115,12 @@
                     android:id="@+id/activite_prendre_photo_spinner_zone" />
             </TableRow>
 
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+            </TableRow>
+
         </TableLayout>
 
         <Button
@@ -123,6 +128,20 @@
             android:layout_height="wrap_content"
             android:text="Enregistrer"
             android:id="@+id/button"
-            android:onClick="onClickEnregistrer" />
+            android:onClick="onClickEnregistrer"
+            android:layout_gravity="right" />
+
     </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Recommencer"
+        android:id="@+id/activite_prendre_photo_recommencer"
+        android:onClick="onClickRecommencer"
+        android:layout_column="1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
