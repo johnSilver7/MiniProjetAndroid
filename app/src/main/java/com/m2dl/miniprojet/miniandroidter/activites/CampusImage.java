@@ -17,7 +17,7 @@ public class CampusImage {
     private int xZoom1, yZoom1, xZoom2, yZoom2;
 
     private boolean twoFingers;
-    private int decalageX1, decalageY1, decalageX2, decalageY2;
+    private int decalageX1, decalageY1;
 
     private final int largeurInit, longueurInit;
     public final static float RAPPORT_LARGEUR_LONGUEUR_IMAGE_CAMPUS = 1.12465374f;
@@ -45,6 +45,12 @@ public class CampusImage {
     private View.OnTouchListener onTouchListenerImageCampus = new View.OnTouchListener() {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
+
+            int x1 = (int) event.getX(0);
+            int y1 = (int) event.getY(0);
+            int x2 = (int) event.getX(1);
+            int y2 = (int) event.getY(1);
+
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     // evite le 'recadrage automatique' lors du premier toucher
@@ -56,18 +62,15 @@ public class CampusImage {
                     twoFingers = true;
                     decalageX1 = 0;
                     decalageY1 = 0;
-                    decalageX2 = (int) event.getX(1) - x;
-                    decalageY2 = (int) event.getY(1) - y;
-                    initZoom(decalageX1, decalageY1, decalageY1, decalageY2);
+                    initZoom(x1, y1, x2, y2);
                     break;
                 case MotionEvent.ACTION_MOVE:
                     if (!twoFingers) {
                         // Deplace l'image
-                        setCoordonnees((int) event.getX(0) - decalageX1,
-                                (int) event.getY(0) - decalageY1);
+                        setCoordonnees(x1 - decalageX1, y1 - decalageY1);
                     } else {
                         // Zoome l'image
-                        //zoomer();
+                        zoomer(x1, y1, x2, y2);
                     }
                     break;
             }
@@ -83,7 +86,7 @@ public class CampusImage {
     }
 
     private void zoomer(int x1, int y1, int x2, int y2) {
-
+        //TODO
     }
 
     private void setCoordonnees(int x, int y) {
