@@ -37,6 +37,16 @@ public class Utilisateur {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Utilisateur)) {
+            return false;
+        } else {
+            return pseudo.equals(((Utilisateur) o).pseudo) &&
+                    mdp.equals(((Utilisateur) o).mdp);
+        }
+    }
+
+    @Override
     public String toString() {
         return pseudo;
     }

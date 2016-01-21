@@ -55,7 +55,7 @@ public class ServeurService {
         return true;
     }
 
-    public File recuperer(String chemin) {
+    public static File recuperer(String chemin) {
         return null;
     }
 

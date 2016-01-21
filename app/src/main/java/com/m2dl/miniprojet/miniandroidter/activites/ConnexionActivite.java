@@ -5,13 +5,13 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
+import com.m2dl.miniprojet.miniandroidter.services.FichierService;
 import com.m2dl.miniprojet.miniandroidter.services.UtilisateurService;
 
 /**
@@ -20,41 +20,31 @@ import com.m2dl.miniprojet.miniandroidter.services.UtilisateurService;
 public class ConnexionActivite extends Activity {
 
     private EditText eMdp, eLogin;
-    private TextView pasEncoreInscrit;
+    private CheckBox cSession;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activite_connexion);
 
-        eMdp = (EditText) findViewById(R.id.activite_connexion_pseudo);
-        eLogin = (EditText) findViewById(R.id.activite_connexion_mdp);
-        pasEncoreInscrit = (TextView) findViewById(R.id.activite_connexion_textInscription);
+        eLogin = (EditText) findViewById(R.id.activite_connexion_pseudo);
+        eMdp = (EditText) findViewById(R.id.activite_connexion_mdp);
+        cSession = (CheckBox) findViewById(R.id.activite_connexion_box_souvenir);
+    }
 
-        pasEncoreInscrit.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                // have same code as onTouchEvent() (for the Activity) above
-
-                int action = event.getActionMasked();
-
-                switch (action) {
-                    case MotionEvent.ACTION_DOWN:
-                        PasEncoreInscrit();
-
-                }
-
-                return true;
-            }
-        });
+    public void garderSessionOuverte() {
+        if (cSession.isChecked()) {
+            FichierService.ecrireDansFichier(eLogin.getText().toString());
+        } else {
+            FichierService.ecrireDansFichier("");
+        }
     }
 
     public void retour(View view) {
         onBackPressed();
     }
 
-    public void PasEncoreInscrit() {
+    public void onClickPasEncoreInscrit(View view) {
         startActivity(new Intent(this, InscriptionActivite.class));
     }
 
@@ -64,13 +54,10 @@ public class ConnexionActivite extends Activity {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
 
-        // TODO A REMETTRE
-        //final Utilisateur utilisateur = UtilisateurService.connecter(pseudo, mdp);
-        //TODO A ENLEVER
-        // Pour tester
-        Utilisateur utilisateur = new Utilisateur("test", "test");
+        final Utilisateur utilisateur = UtilisateurService.connecter(pseudo, mdp);
 
         if (utilisateur != null) {
+            garderSessionOuverte();
             Utilisateur.utilisateurConnecte = utilisateur;
             builder.setMessage("Vous êtes à présent connecté");
             builder.setNeutralButton("ok", new DialogInterface.OnClickListener() {
@@ -79,7 +66,8 @@ public class ConnexionActivite extends Activity {
                     finish();
                 }
             });
-        } else {
+        }
+        else {
             builder.setMessage("Mauvais login ou mot de passe");
             builder.setNeutralButton("ok", null);
             eMdp.setText("");

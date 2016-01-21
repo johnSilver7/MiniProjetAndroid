@@ -11,6 +11,8 @@ import com.m2dl.miniprojet.miniandroidter.domaine.Campus;
 import com.m2dl.miniprojet.miniandroidter.domaine.Photo;
 import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
 import com.m2dl.miniprojet.miniandroidter.domaine.Zone;
+import com.m2dl.miniprojet.miniandroidter.services.FichierService;
+import com.m2dl.miniprojet.miniandroidter.services.UtilisateurService;
 
 /**
  * Created by yan on 15/01/16.
@@ -33,6 +35,13 @@ public class PrincipaleActivite extends Activity {
         }
 
         recupererBaseDonnees();
+        seConnecterSiPossible();
+    }
+
+    private void seConnecterSiPossible() {
+        FichierService.init(getExternalFilesDir(null) + "");
+        String login = FichierService.lireDansFichier();
+        UtilisateurService.connecter(login);
     }
 
     private void recupererBaseDonnees() {
