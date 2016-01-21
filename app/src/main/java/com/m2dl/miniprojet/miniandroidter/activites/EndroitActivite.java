@@ -11,6 +11,6 @@ public class EndroitActivite extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activite_zone);
+        setContentView(R.layout.activite_endroit);
     }
 }
