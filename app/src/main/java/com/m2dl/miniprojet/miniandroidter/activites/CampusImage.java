@@ -1,5 +1,8 @@
 package com.m2dl.miniprojet.miniandroidter.activites;
 
+import android.annotation.TargetApi;
+import android.os.Build;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -91,18 +94,21 @@ public class CampusImage {
 
         if (distance > 0) {
             // zoomer
-            zoom *= ((float) (distanceAbsolu + largeurInit) / (float) largeurInit);
+            //zoom *= ((float) (distanceAbsolu + largeurInit) / (float) largeurInit);
+            zoom *= 1.05f;
             if (zoom > ZOOM_MAX) {
                 zoom = ZOOM_MAX;
             }
         } else {
             // dezoomer
-            zoom /= ((float) (distanceAbsolu + largeurInit) / (float) largeurInit);
+            //zoom /= ((float) (distanceAbsolu + largeurInit) / (float) largeurInit);
+            zoom /= 1.05f;
             if (zoom < ZOOM_MIN) {
                 zoom = ZOOM_MIN;
             }
         }
 
+        tImage.requestLayout();
         largeur = (int) ((float) largeurInit * zoom);
         longueur = (int) ((float) largeur / RAPPORT_LARGEUR_LONGUEUR_IMAGE_CAMPUS);
         tImage.getLayoutParams().width = largeur;

@@ -78,6 +78,8 @@ public class CampusActivite extends Activity {
         tImageCampus.setBackgroundDrawable(getResources().getDrawable(R.drawable.campus));
 
         campusImage = new CampusImage(tImageCampus, largeurLayout, longueurLayout);
+        tImageCampus.setMaxWidth(5000);
+        tImageCampus.getLayoutParams().width = 3000;
     }
 
     private void afficherSpinnerTag() {
