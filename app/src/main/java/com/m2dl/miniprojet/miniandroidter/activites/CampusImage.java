@@ -1,9 +1,10 @@
 package com.m2dl.miniprojet.miniandroidter.activites;
 
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
+
+import com.m2dl.miniprojet.miniandroidter.outils.MathOutils;
 
 /**
  * Created by quentin on 21/01/16.
@@ -11,10 +12,13 @@ import android.widget.TextView;
 public class CampusImage {
 
     private TextView tImage;
+
     private int x, y, largeur, longueur;
 
     private float zoom;
-    private int xZoom1, yZoom1, xZoom2, yZoom2;
+    private int distanceInitZoom;
+    private static final float ZOOM_MAX = 10f;
+    private static final float ZOOM_MIN = 0.5f;
 
     private boolean twoFingers;
     private int decalageX1, decalageY1;
@@ -46,30 +50,29 @@ public class CampusImage {
         @Override
         public boolean onTouch(View v, MotionEvent event) {
 
-            int x1 = (int) event.getX(0);
-            int y1 = (int) event.getY(0);
-            int x2 = (int) event.getX(1);
-            int y2 = (int) event.getY(1);
+            int x1, y1, x2 = 0, y2 = 0;
+            x1 = (int) event.getX(0);
+            y1 = (int) event.getY(0);
+            if (event.getPointerCount() > 1) {
+                x2 = (int) event.getX(1);
+                y2 = (int) event.getY(1);
+            }
 
             switch (event.getActionMasked()) {
                 case MotionEvent.ACTION_DOWN:
                     // evite le 'recadrage automatique' lors du premier toucher
                     twoFingers = false;
-                    decalageX1 = (int) event.getX(0) - x;
-                    decalageY1 = (int) event.getY(0) - y;
+                    decalageX1 = x1 - x;
+                    decalageY1 = y1 - y;
                     break;
                 case MotionEvent.ACTION_POINTER_DOWN:
                     twoFingers = true;
-                    decalageX1 = 0;
-                    decalageY1 = 0;
                     initZoom(x1, y1, x2, y2);
                     break;
                 case MotionEvent.ACTION_MOVE:
                     if (!twoFingers) {
-                        // Deplace l'image
                         setCoordonnees(x1 - decalageX1, y1 - decalageY1);
                     } else {
-                        // Zoome l'image
                         zoomer(x1, y1, x2, y2);
                     }
                     break;
@@ -79,19 +82,36 @@ public class CampusImage {
     };
 
     private void initZoom(int x1, int y1, int x2, int y2) {
-        xZoom1 = x1;
-        yZoom1 = y1;
-        xZoom2 = x2;
-        yZoom2 = y2;
+        distanceInitZoom = MathOutils.getDistance(x1, y1, x2, y2);
     }
 
     private void zoomer(int x1, int y1, int x2, int y2) {
-        //TODO
+        int distance = MathOutils.getDistance(x1, y1, x2, y2) - distanceInitZoom;
+        int distanceAbsolu = Math.abs(distance);
+
+        if (distance > 0) {
+            // zoomer
+            zoom *= ((float) (distanceAbsolu + largeurInit) / (float) largeurInit);
+            if (zoom > ZOOM_MAX) {
+                zoom = ZOOM_MAX;
+            }
+        } else {
+            // dezoomer
+            zoom /= ((float) (distanceAbsolu + largeurInit) / (float) largeurInit);
+            if (zoom < ZOOM_MIN) {
+                zoom = ZOOM_MIN;
+            }
+        }
+
+        largeur = (int) ((float) largeurInit * zoom);
+        longueur = (int) ((float) largeur / RAPPORT_LARGEUR_LONGUEUR_IMAGE_CAMPUS);
+        tImage.getLayoutParams().width = largeur;
+        tImage.getLayoutParams().height = longueur;
     }
 
     private void setCoordonnees(int x, int y) {
-        tImage.setX(this.x = x);
-        tImage.setY(this.y = y);
+        tImage.setX(x);
+        tImage.setY(y);
     }
 
 }

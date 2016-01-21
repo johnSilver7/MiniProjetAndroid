@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -102,7 +103,7 @@ public class CampusActivite extends Activity {
     private void afficherSpinnerZone() {
         List<String> listeZoneSpinner = new ArrayList<>();
         listeZoneSpinner.add(TEXTE_AUCUN_FILTRE);
-        for (Zone zone: Zone.getListeZone()) {
+        for (Zone zone : Zone.getListeZone()) {
             listeZoneSpinner.add(zone.toString());
         }
         sZone.setAdapter(new ArrayAdapter<>(
