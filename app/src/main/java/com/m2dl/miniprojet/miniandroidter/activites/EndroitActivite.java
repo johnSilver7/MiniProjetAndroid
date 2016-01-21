@@ -6,7 +6,7 @@ import android.os.Bundle;
 /**
  * Created by quentin on 19/01/16.
  */
-public class ZoneActivite extends Activity {
+public class EndroitActivite extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

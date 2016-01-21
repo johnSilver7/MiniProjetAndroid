@@ -35,7 +35,7 @@
             android:name=".PrendrePhotoActivite">
         </activity>
         <activity
-            android:name=".ZoneActivite">
+            android:name=".EndroitActivite">
         </activity>
     </application>
 
