@@ -2,6 +2,7 @@ package com.m2dl.miniprojet.miniandroidter.activites;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,9 +21,13 @@ import java.util.List;
 public class EndroitActivite extends Activity {
 
     private Zone zone;
+    private Photo photo;
 
-    private TextView tDate, tTag, tZone, tPosteur;
+    private TextView tDate, tTag, tZone, tPosteur, tSalle;
     private ImageView tPhotoPrise;
+
+    private List<Photo> listePhoto;
+    private List<Zone> listeZone;
 
     private static final String CHEMIN_PHOTO_ENDROIT = "test";
 
@@ -35,23 +40,87 @@ public class EndroitActivite extends Activity {
         tTag = (TextView) findViewById(R.id.activite_endroit_tag);
         tZone = (TextView) findViewById(R.id.activite_endroit_zone);
         tPosteur = (TextView) findViewById(R.id.activite_endroit_utilisateur);
+        tSalle = (TextView) findViewById(R.id.activite_endroit_salle);
         tPhotoPrise = (ImageView) findViewById(R.id.activite_endroit_image);
 
         // Une activite m'a passe une photo
         String cheminPhoto = getIntent().getExtras().getString(CHEMIN_PHOTO_ENDROIT);
-        Photo photo = Photo.getPhoto(cheminPhoto);
-        tZone.setText("Zone:" + photo.getZone().toString());
+        photo = Photo.getPhoto(cheminPhoto);
+        tZone.setText(photo.getZone().toString());
         zone = photo.getZone();
+        afficherInformationPhoto(photo);
 
-        List<Photo> listePhoto = zone.getListePhoto();
 
+        listePhoto = zone.getListePhoto();
+        listeZone = Zone.getListeZone();
 
     }
 
     private void afficherInformationPhoto(Photo photo) {
-        tDate.setText("Date prise:" + DateOutils.toStringDate(photo.getDate().getTime()));
-        tTag.setText("TAG:" + photo.getTag().toString());
-        tPosteur.setText("Posté par:" + photo.getPosteur());
+        tDate.setText(DateOutils.toStringDate(photo.getDate().getTime()));
+        tTag.setText(photo.getTag().toString());
+        tPosteur.setText(photo.getPosteur().toString());
         tPhotoPrise.setBackgroundDrawable(photo.getDrawable());
     }
+
+    private void afficherInformationZone(Zone zone) {
+        tZone.setText(zone.getNom());
+        tSalle.setText(zone.getSalle());
+        listePhoto = zone.getListePhoto();
+        photo = listePhoto.get(0);
+        afficherInformationPhoto(photo);
+
+    }
+
+    public void getPhotoPrecedente(View v) {
+
+        int idPhoto = listePhoto.indexOf(photo);
+        if (listePhoto.get(idPhoto - 1) != null) {
+            photo = listePhoto.get(idPhoto - 1);
+        } else {
+            photo = listePhoto.get(zone.getListePhoto().size() - 1);
+        }
+        afficherInformationPhoto(photo);
+
+    }
+
+    public void getPhotoSuivante(View v) {
+
+        int idPhoto = listePhoto.indexOf(photo);
+
+        if (listePhoto.get(idPhoto + 1) != null) {
+            photo = listePhoto.get(idPhoto + 1);
+        } else {
+            photo = listePhoto.get(0);
+        }
+
+        afficherInformationPhoto(photo);
+    }
+
+    public void getZonePrecedente(View v) {
+        int idZone = listeZone.indexOf(zone);
+
+        if (listeZone.get(idZone - 1) != null) {
+            zone = listeZone.get(idZone - 1);
+        } else {
+            zone = listeZone.get(listeZone.size() - 1);
+        }
+
+        afficherInformationZone(zone);
+    }
+
+    public void getZoneSuivante(View v) {
+
+        int idZone = listeZone.indexOf(zone);
+
+        if (listePhoto.get(idZone + 1) != null) {
+            zone = listeZone.get(idZone + 1);
+        } else {
+            zone = listeZone.get(0);
+        }
+
+        afficherInformationZone(zone);
+    }
+
+
 }
