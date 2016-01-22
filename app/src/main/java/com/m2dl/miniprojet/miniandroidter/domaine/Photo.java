@@ -15,6 +15,25 @@ import java.util.List;
 public class Photo {
     private String image;
     private Date date;
+    private Tag tag;
+    private Zone zone;
+    private Utilisateur posteur;
+    private Drawable drawable;
+
+    public static String PATH = "";
+    public final static String NOM_PHOTO_TEMP = "photo.png";
+
+    private static List<Photo> listePhoto = new ArrayList<>();
+
+    public Photo(String image, Date date, Tag tag, Zone zone, Utilisateur posteur) {
+        this.image = image;
+        this.date = date;
+        this.tag = tag;
+        this.zone = zone;
+        this.posteur = posteur;
+
+        this.drawable = ImageOutils.convertir(ServeurService.recuperer(image));
+    }
 
     public String getImage() {
         return image;
@@ -36,17 +55,6 @@ public class Photo {
         return posteur;
     }
 
-    private Tag tag;
-    private Zone zone;
-    private Utilisateur posteur;
-    private Drawable drawable;
-
-
-    public static String PATH = "";
-    public final static String NOM_PHOTO_TEMP = "photo.png";
-
-    public static List<Photo> listePhoto = new ArrayList<>();
-
     public static Photo getPhoto(String chemin) {
         for (Photo p : listePhoto) {
             if (p.image.equals(chemin)) {
@@ -57,10 +65,16 @@ public class Photo {
     }
 
     public Drawable getDrawable() {
-        if (this.drawable != null) {
-            return this.drawable;
-        } else {
-            return ImageOutils.convertir(ServeurService.recuperer(image));
+        return this.drawable;
+    }
+
+    public static List<Photo> getListePhoto() {
+        return listePhoto;
+    }
+
+    public static void ajouterPhoto(Photo photo) {
+        if (!listePhoto.contains(photo)) {
+            listePhoto.add(photo);
         }
     }
 

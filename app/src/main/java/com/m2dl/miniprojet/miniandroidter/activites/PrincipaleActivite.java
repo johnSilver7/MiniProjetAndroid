@@ -9,10 +9,14 @@ import android.view.View;
 
 import com.m2dl.miniprojet.miniandroidter.domaine.Campus;
 import com.m2dl.miniprojet.miniandroidter.domaine.Photo;
+import com.m2dl.miniprojet.miniandroidter.domaine.Point;
+import com.m2dl.miniprojet.miniandroidter.domaine.Tag;
 import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
 import com.m2dl.miniprojet.miniandroidter.domaine.Zone;
 import com.m2dl.miniprojet.miniandroidter.services.FichierService;
 import com.m2dl.miniprojet.miniandroidter.services.UtilisateurService;
+
+import java.util.Date;
 
 /**
  * Created by yan on 15/01/16.
@@ -34,6 +38,7 @@ public class PrincipaleActivite extends Activity {
             StrictMode.setThreadPolicy(policy);
         }
 
+        Campus.init();
         recupererBaseDonnees();
         seConnecterSiPossible();
     }
@@ -46,11 +51,29 @@ public class PrincipaleActivite extends Activity {
 
     private void recupererBaseDonnees() {
         //TODO a modifier et completer
-        Zone.ajouterZone(new Zone("zone1", "salle1"));
-        Zone.ajouterZone(new Zone("zone2", "salle45"));
-        Zone.ajouterZone(new Zone("zone3", "salle23"));
 
-        Utilisateur.ajouterUtilisateur(new Utilisateur("test", "test"));
+        Zone zone1 = new Zone("zone1", "salle1",
+                Campus.getPointSurImage(new Point(43.568698, 1.465387)));
+        Zone zone2 = new Zone("zone2", "salle45",
+                Campus.getPointSurImage(new Point(43.560804, 1.473386)));
+        Zone zone3 = new Zone("zone3", "salle23",
+                Campus.getPointSurImage(new Point(43.564800, 1.458784)));
+
+        Utilisateur user1 = new Utilisateur("test", "test");
+
+        Photo photo1 = new Photo("", new Date(), Tag.DEGRADATION, zone1, user1);
+        Photo photo2 = new Photo("", new Date(), Tag.DEGRADATION, zone2, user1);
+        Photo photo3 = new Photo("", new Date(), Tag.DEGRADATION, zone3, user1);
+
+        Zone.ajouterZone(zone1);
+        Zone.ajouterZone(zone2);
+        Zone.ajouterZone(zone3);
+
+        Photo.ajouterPhoto(photo1);
+        Photo.ajouterPhoto(photo2);
+        Photo.ajouterPhoto(photo3);
+
+        Utilisateur.ajouterUtilisateur(user1);
     }
 
     public void onClickAfficherCampus(View view) {
