@@ -7,6 +7,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -61,9 +62,30 @@ public class CampusActivite extends Activity {
         afficherSpinnerUtilisateur();
         afficherSpinnerZone();
         afficherPointers();
+
+        parametrerSpinners();
     }
 
+    private void parametrerSpinners() {
+        sTag.setOnItemSelectedListener(onClickSurItemSpinner);
+        sZone.setOnItemSelectedListener(onClickSurItemSpinner);
+        sUtilisateur.setOnItemSelectedListener(onClickSurItemSpinner);
+    }
+
+    private AdapterView.OnItemSelectedListener onClickSurItemSpinner =
+            new AdapterView.OnItemSelectedListener() {
+        @Override
+        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            afficherPointers();
+        }
+        @Override
+        public void onNothingSelected(AdapterView<?> parent) {
+            // rien ?
+        }
+    };
+
     private void afficherPointers() {
+        // TODO enlever les pointeurs qui sont deja (s'il y en a)
         for (Zone zone: Zone.getListeZone()) {
             //TODO
         }

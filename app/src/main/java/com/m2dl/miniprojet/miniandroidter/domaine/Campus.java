@@ -15,7 +15,7 @@ public class Campus {
     public static void init() {
         Point p1 = convertirPointInformatique(new Point(43.568698, 1.465387));
         Point p2 = convertirPointInformatique(new Point(43.560804, 1.473386));
-        Point p3 = convertirPointInformatique(new Point(43.564800, 1.458784));
+        Point p3 = convertirPointInformatique(new Point(43.564647, 1.457949));
         Point p4 = convertirPointInformatique(new Point(43.556975, 1.466417));
 
         Log.d("p1", "" + p1);
@@ -63,11 +63,11 @@ public class Campus {
         double tanTETA = Math.tan(TETA);
 
         double xReel = pointReel.getX();
-        double yReel = pointReel.gety();
+        double yReel = pointReel.getY();
 
         double yI = (xReel / cosTETA) + (sinTETA * (yReel - (tanTETA * xReel)));
         double xI = (yI - (xReel / cosTETA)) / tanTETA;
-        return new Point(xI, yI);
+        return new Point(cosTETA * xReel, sinTETA * yReel);
     }
 
 }
