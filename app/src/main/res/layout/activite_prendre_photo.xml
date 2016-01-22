@@ -33,6 +33,14 @@
         android:layout_alignParentBottom="true"
         android:gravity="center">
 
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Prendre photo"
+            android:id="@+id/activite_prendre_photo_recommencer"
+            android:onClick="onClickPrendrePhotoRecommencer"
+            android:layout_column="1" />
+
         <TableLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -132,16 +140,5 @@
             android:layout_gravity="right" />
 
     </LinearLayout>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Recommencer"
-        android:id="@+id/activite_prendre_photo_recommencer"
-        android:onClick="onClickRecommencer"
-        android:layout_column="1"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
 
 </RelativeLayout>

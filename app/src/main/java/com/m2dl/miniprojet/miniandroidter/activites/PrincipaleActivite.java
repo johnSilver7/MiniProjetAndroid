@@ -49,6 +49,8 @@ public class PrincipaleActivite extends Activity {
         Zone.ajouterZone(new Zone("zone1", "salle1"));
         Zone.ajouterZone(new Zone("zone2", "salle45"));
         Zone.ajouterZone(new Zone("zone3", "salle23"));
+
+        Utilisateur.ajouterUtilisateur(new Utilisateur("test", "test"));
     }
 
     public void onClickAfficherCampus(View view) {

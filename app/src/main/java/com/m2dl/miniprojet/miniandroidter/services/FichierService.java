@@ -18,7 +18,7 @@ public class FichierService {
     }
 
     public static void ecrireDansFichier(String s) {
-        contenu += s;
+        contenu = s;
         FileWriter writer = null;
         try{
             writer = new FileWriter(nom, false);
