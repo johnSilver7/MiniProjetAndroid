@@ -19,4 +19,9 @@ public class Point {
     public double gety() {
         return y;
     }
+
+    @Override
+    public String toString() {
+        return "(" + x + "; " + y + ")";
+    }
 }
