@@ -61,9 +61,21 @@ public class PrincipaleActivite extends Activity {
 
         Utilisateur user1 = new Utilisateur("test", "test");
 
-        Photo photo1 = new Photo("", new Date(), Tag.DEGRADATION, zone1, user1);
-        Photo photo2 = new Photo("", new Date(), Tag.DEGRADATION, zone2, user1);
-        Photo photo3 = new Photo("", new Date(), Tag.DEGRADATION, zone3, user1);
+        Photo photo1 = new Photo("photo1", new Date(), Tag.DEGRADATION, zone1, user1);
+        Photo photo2 = new Photo("", new Date(), Tag.RECYCLAGE, zone2, user1);
+        Photo photo3 = new Photo("", new Date(), Tag.FUITEDEAU, zone3, user1);
+
+        zone1.ajouterListePhoto(photo1);
+        zone1.ajouterListePhoto(photo2);
+        zone1.ajouterListePhoto(photo3);
+
+        zone2.ajouterListePhoto(photo3);
+        zone2.ajouterListePhoto(photo2);
+        zone2.ajouterListePhoto(photo1);
+
+        zone3.ajouterListePhoto(photo1);
+        zone3.ajouterListePhoto(photo3);
+        zone3.ajouterListePhoto(photo2);
 
         Zone.ajouterZone(zone1);
         Zone.ajouterZone(zone2);
@@ -103,5 +115,11 @@ public class PrincipaleActivite extends Activity {
     @Override
     public void onBackPressed() {
         //TODO DEMANDER DE QUITTER
+    }
+
+    public void quickTesting(View v) {
+        Intent intent = new Intent(this, EndroitActivite.class);
+        intent.putExtra("test", "photo1");
+        startActivity(intent);
     }
 }

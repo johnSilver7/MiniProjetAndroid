@@ -66,4 +66,14 @@ public class Zone {
     public List<Photo> getListePhoto() {
         return this.listePhoto;
     }
+
+    public void ajouterListePhoto(Photo photo) {
+        if (!listePhoto.contains(photo)) {
+            this.listePhoto.add(photo);
+        }
+    }
+
+    public void setSalle(String salle) {
+        this.salle = salle;
+    }
 }

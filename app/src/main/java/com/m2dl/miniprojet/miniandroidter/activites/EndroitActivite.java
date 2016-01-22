@@ -46,8 +46,13 @@ public class EndroitActivite extends Activity {
         // Une activite m'a passe une photo
         String cheminPhoto = getIntent().getExtras().getString(CHEMIN_PHOTO_ENDROIT);
         photo = Photo.getPhoto(cheminPhoto);
+
+        if (photo == null) {
+            System.out.println("YOOO pourquoi j'ai le mauvais chemin ?");
+        }
         tZone.setText(photo.getZone().toString());
         zone = photo.getZone();
+        tSalle.setText(zone.getSalle());
         afficherInformationPhoto(photo);
 
 
@@ -75,7 +80,7 @@ public class EndroitActivite extends Activity {
     public void getPhotoPrecedente(View v) {
 
         int idPhoto = listePhoto.indexOf(photo);
-        if (listePhoto.get(idPhoto - 1) != null) {
+        if (idPhoto - 1 >= 0) {
             photo = listePhoto.get(idPhoto - 1);
         } else {
             photo = listePhoto.get(zone.getListePhoto().size() - 1);
@@ -88,7 +93,7 @@ public class EndroitActivite extends Activity {
 
         int idPhoto = listePhoto.indexOf(photo);
 
-        if (listePhoto.get(idPhoto + 1) != null) {
+        if (idPhoto + 1 < listePhoto.size()) {
             photo = listePhoto.get(idPhoto + 1);
         } else {
             photo = listePhoto.get(0);
@@ -100,7 +105,7 @@ public class EndroitActivite extends Activity {
     public void getZonePrecedente(View v) {
         int idZone = listeZone.indexOf(zone);
 
-        if (listeZone.get(idZone - 1) != null) {
+        if (idZone - 1 >= 0) {
             zone = listeZone.get(idZone - 1);
         } else {
             zone = listeZone.get(listeZone.size() - 1);
@@ -113,7 +118,7 @@ public class EndroitActivite extends Activity {
 
         int idZone = listeZone.indexOf(zone);
 
-        if (listePhoto.get(idZone + 1) != null) {
+        if (idZone + 1 < listeZone.size()) {
             zone = listeZone.get(idZone + 1);
         } else {
             zone = listeZone.get(0);
