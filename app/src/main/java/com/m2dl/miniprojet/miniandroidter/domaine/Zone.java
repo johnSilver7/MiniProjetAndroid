@@ -22,6 +22,18 @@ public class Zone {
         this.point = point;
     }
 
+    public String getNom() {
+        return nom;
+    }
+
+    public String getSalle() {
+        return salle;
+    }
+
+    public Point getPoint() {
+        return point;
+    }
+
     public void sauvegarderEnBase() {
         //TODO A FAIRE
         ajouterZone(this);

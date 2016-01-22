@@ -60,6 +60,13 @@ public class CampusActivite extends Activity {
         afficherSpinnerTag();
         afficherSpinnerUtilisateur();
         afficherSpinnerZone();
+        afficherPointers();
+    }
+
+    private void afficherPointers() {
+        for (Zone zone: Zone.getListeZone()) {
+            //TODO
+        }
     }
 
     private void afficherTitre() {
@@ -77,8 +84,10 @@ public class CampusActivite extends Activity {
 
         tImageCampus.setText("");
         tImageCampus.setBackgroundDrawable(getResources().getDrawable(R.drawable.campus));
+        tImageCampus.getLayoutParams().width = largeurLayout;
+        tImageCampus.getLayoutParams().height = longueurLayout;
 
-        campusImage = new CampusImage(tImageCampus, largeurLayout, longueurLayout);
+        //campusImage = new CampusImage(tImageCampus, largeurLayout, longueurLayout);
     }
 
     private void afficherSpinnerTag() {
