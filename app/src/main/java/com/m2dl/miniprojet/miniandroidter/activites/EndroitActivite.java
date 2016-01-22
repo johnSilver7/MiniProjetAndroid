@@ -34,8 +34,8 @@ public class EndroitActivite extends Activity {
         tDate = (TextView) findViewById(R.id.activite_endroit_date);
         tTag = (TextView) findViewById(R.id.activite_endroit_tag);
         tZone = (TextView) findViewById(R.id.activite_endroit_zone);
-        tPosteur = (TextView) findViewById(R.id.activite_endroit_posteur);
-        tPhotoPrise = (ImageView) findViewById(R.id.activite_endroit_photoPrise);
+        tPosteur = (TextView) findViewById(R.id.activite_endroit_utilisateur);
+        tPhotoPrise = (ImageView) findViewById(R.id.activite_endroit_image);
 
         // Une activite m'a passe une photo
         String cheminPhoto = getIntent().getExtras().getString(CHEMIN_PHOTO_ENDROIT);
