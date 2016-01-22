@@ -9,12 +9,17 @@ import java.util.List;
 public class Zone {
     private String nom;
     private String salle;
+    private Point point;
+
 
     private static List<Zone> listeZone = new ArrayList<>();
 
-    public Zone(String nom, String salle) {
+    private List<Photo> listePhoto = new ArrayList<Photo>();
+
+    public Zone(String nom, String salle, Point point) {
         this.nom = nom;
         this.salle = salle;
+        this.point = point;
     }
 
     public void sauvegarderEnBase() {
@@ -44,5 +49,9 @@ public class Zone {
     @Override
     public String toString() {
         return nom;
+    }
+
+    public List<Photo> getListePhoto() {
+        return this.listePhoto;
     }
 }

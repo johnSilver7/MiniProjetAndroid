@@ -1,5 +1,10 @@
 package com.m2dl.miniprojet.miniandroidter.domaine;
 
+import android.graphics.drawable.Drawable;
+
+import com.m2dl.miniprojet.miniandroidter.outils.ImageOutils;
+import com.m2dl.miniprojet.miniandroidter.services.ServeurService;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -34,6 +39,8 @@ public class Photo {
     private Tag tag;
     private Zone zone;
     private Utilisateur posteur;
+    private Drawable drawable;
+
 
     public static String PATH = "";
     public final static String NOM_PHOTO_TEMP = "photo.png";
@@ -47,6 +54,14 @@ public class Photo {
             }
         }
         return null;
+    }
+
+    public Drawable getDrawable() {
+        if (this.drawable != null) {
+            return this.drawable;
+        } else {
+            return ImageOutils.convertir(ServeurService.recuperer(image));
+        }
     }
 
 }

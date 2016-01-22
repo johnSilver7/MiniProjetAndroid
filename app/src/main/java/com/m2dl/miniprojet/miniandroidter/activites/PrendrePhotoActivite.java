@@ -125,7 +125,7 @@ public class PrendrePhotoActivite extends Activity {
                 public void onClick(DialogInterface dialog, int which) {
                     //TODO Verifier le titre de la zone entree
                     String titreNouvelleZone = eTitreZone.getText().toString();
-                    Zone nouvelleZone = new Zone(titreNouvelleZone, "utile ?");
+                    Zone nouvelleZone = new Zone(titreNouvelleZone, "utile ?", null);
                     nouvelleZone.sauvegarderEnBase();
                     actualiserSpinnerZone();
                     sZone.setSelection(sZone.getCount() - 1);
