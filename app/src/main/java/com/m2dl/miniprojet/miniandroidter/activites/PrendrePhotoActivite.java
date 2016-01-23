@@ -1,19 +1,25 @@
 package com.m2dl.miniprojet.miniandroidter.activites;
 
+import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.v4.app.ActivityCompat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Gravity;
@@ -45,10 +51,13 @@ import java.util.List;
 /**
  * Created by yan on 15/01/16.
  */
-public class PrendrePhotoActivite extends Activity {
+public class PrendrePhotoActivite extends Activity implements LocationListener {
 
     private static int largeurEcran, longueurEcran;
 
+    double longitude, latitude;
+
+    private LocationManager locationManager;
     private static File photoPrise;
     private static Drawable imagePhotoPrise;
     private final static int REQUETE_CAPTURE = 2;
@@ -83,9 +92,42 @@ public class PrendrePhotoActivite extends Activity {
         preRemplirLesChamps();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        //Mise à jour du location manager
+        locationManager = (LocationManager) this.getSystemService(LOCATION_SERVICE);
+
+        //Si la géolocalisation est activée on s'abonne
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            abonnementGPS();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        desabonnementGPS();
+    }
+
+    public void abonnementGPS() throws SecurityException {
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 10, this);
+        Location mobileLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (mobileLocation != null) {
+            onLocationChanged(mobileLocation);
+            tGeo.setText("OUI");
+        }
+    }
+
+    public void desabonnementGPS() throws SecurityException {
+        locationManager.removeUpdates(this);
+        tGeo.setText("Non");
+    }
+
     private void preRemplirLesChamps() {
         tTitre.setText("Pseudo: " + Utilisateur.utilisateurConnecte.getPseudo());
-        tGeo.setText(GEOLOCALISE_OUI);//TODO A FAIRE
+        //tGeo.setText(GEOLOCALISE_OUI);//TODO A FAIRE
         tDate.setText(DateOutils.toStringDate(new Date().getTime()));
         sTag.setAdapter(new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_item, Tag.getListeString()));
@@ -95,7 +137,7 @@ public class PrendrePhotoActivite extends Activity {
     private void actualiserSpinnerZone() {
         List<String> listeZoneSpinner = new ArrayList<>();
         listeZoneSpinner.add(TITRE_CREATION_NOUVELLE_ZONE);
-        for (Zone zone: Zone.getListeZone()) {
+        for (Zone zone : Zone.getListeZone()) {
             listeZoneSpinner.add(zone.toString());
         }
         sZone.setAdapter(new ArrayAdapter<>(
@@ -244,5 +286,32 @@ public class PrendrePhotoActivite extends Activity {
     public void onBackPressed() {
         imagePhotoPrise = null;
         finish();
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        this.latitude = location.getLatitude();
+        this.longitude = location.getLongitude();
+        Log.d("GEO", this.latitude + " | " + this.longitude);
+        tGeo.setText("PASS");
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        if ("gps".equals(provider)) {
+            abonnementGPS();
+        }
+    }
+
+    @Override
+    public void onProviderDisabled(String provider) {
+        if("gps".equals(provider)) {
+            desabonnementGPS();
+        }
     }
 }
