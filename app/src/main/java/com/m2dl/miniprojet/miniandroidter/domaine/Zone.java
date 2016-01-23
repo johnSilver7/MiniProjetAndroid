@@ -54,13 +54,13 @@ public class Zone {
         if (!(o instanceof Zone)) {
             return false;
         } else {
-            return nom.equals(((Zone) o).nom);
+            return nom.equals(((Zone) o).nom) && salle.equals(((Zone) o).salle);
         }
     }
 
     @Override
     public String toString() {
-        return nom;
+        return nom + ":" + salle;
     }
 
     public List<Photo> getListePhoto() {
@@ -75,5 +75,14 @@ public class Zone {
 
     public void setSalle(String salle) {
         this.salle = salle;
+    }
+
+    public static Zone getZone(String zoneToString) {
+        for (Zone zone: listeZone) {
+            if (zone.toString().equals(zoneToString)) {
+                return zone;
+            }
+        }
+        return null;
     }
 }

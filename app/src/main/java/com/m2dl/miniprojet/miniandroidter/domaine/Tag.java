@@ -26,4 +26,13 @@ public enum Tag {
         return liste;
     }
 
+    public static Tag getTag(String toString) {
+        switch (toString) {
+            case "Recyclage": return RECYCLAGE;
+            case "Dégradation": return DEGRADATION;
+            case "Fuite d'eau": return FUITEDEAU;
+        }
+        return null;
+    }
+
 }

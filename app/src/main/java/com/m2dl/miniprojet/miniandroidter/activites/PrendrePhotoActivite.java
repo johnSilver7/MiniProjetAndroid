@@ -35,11 +35,11 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.m2dl.miniprojet.miniandroidter.domaine.Photo;
+import com.m2dl.miniprojet.miniandroidter.domaine.Point;
 import com.m2dl.miniprojet.miniandroidter.domaine.Tag;
 import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
 import com.m2dl.miniprojet.miniandroidter.domaine.Zone;
 import com.m2dl.miniprojet.miniandroidter.outils.DateOutils;
-import com.m2dl.miniprojet.miniandroidter.services.ServeurService;
 
 import org.w3c.dom.Text;
 
@@ -119,7 +119,7 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
 
     public void desabonnementGPS() throws SecurityException {
         locationManager.removeUpdates(this);
-        tGeo.setText("Non");
+        tGeo.setText(GEOLOCALISE_NON);
     }
 
     private void preRemplirLesChamps() {
@@ -164,14 +164,22 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
                 public void onClick(DialogInterface dialog, int which) {
                     //TODO Verifier le titre de la zone entree
                     String titreNouvelleZone = eTitreZone.getText().toString();
-                    Zone nouvelleZone = new Zone(titreNouvelleZone, "utile ?", null);
+                    Zone nouvelleZone = new Zone(titreNouvelleZone,
+                            "TODO", new Point(latitude, longitude));
                     nouvelleZone.sauvegarderEnBase();
                     actualiserSpinnerZone();
                     sZone.setSelection(sZone.getCount() - 1);
                 }
             });
         } else {
-            //TODO enregistrer l'image et/ou la zone
+            // Enregistre la photo sur le serveur et en local
+            Zone zone = Zone.getZone((String) sZone.getSelectedItem());
+            Tag tag = Tag.getTag((String) sTag.getSelectedItem());
+            Date date = DateOutils.getDate(tDate.getText().toString());
+            Photo photo = new Photo(photoPrise.getAbsolutePath(),
+                    date, tag, zone, Utilisateur.utilisateurConnecte);
+            photo.sauvegarderEnBase();
+
             builder.setMessage("Endroit enregistré avec succès !");
             builder.setNegativeButton("Retour", new DialogInterface.OnClickListener() {
                 @Override
@@ -290,7 +298,7 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
         this.latitude = location.getLatitude();
         this.longitude = location.getLongitude();
         Log.d("GEO", this.latitude + " | " + this.longitude);
-        tGeo.setText("PASS");
+        tGeo.setText(GEOLOCALISE_OUI);
     }
 
     @Override

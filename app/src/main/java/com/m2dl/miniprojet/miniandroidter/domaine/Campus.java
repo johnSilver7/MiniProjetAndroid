@@ -2,16 +2,13 @@ package com.m2dl.miniprojet.miniandroidter.domaine;
 
 import android.util.Log;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  * Created by yan on 15/01/16.
  */
 public class Campus {
 
-    private static double x1x3Reel, y1y2Reel, diffX, diffY;
     private final static double TETA = 39.704;
+    private static double x1x3Reel, y1y2Reel, diffX, diffY;
     private static Point pHautGauche, pHautDroite, pBasGauche, pBasDroite;
 
     public final static double RAPPORT_LARGEUR_LONGUEUR_IMAGE_CAMPUS = 1.12465374;
@@ -96,6 +93,11 @@ public class Campus {
 
         // mode 'mirroir'
         return new Point(-xI, -yI);
+    }
+
+    public static boolean estDansLeCampus(Point pointReel) {
+        //TODO
+        return true;
     }
 
 }

@@ -9,6 +9,11 @@ import java.util.GregorianCalendar;
  */
 public class DateOutils {
 
+    /**
+     * Renvoie la date en chaine de caractere en format: 'JJ/MM/AAAA hh:mm'.
+     * @param date date de type timestamp en base
+     * @return la date en chaine de caractere
+     */
     public static String toStringDate(long date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(date);
@@ -25,6 +30,16 @@ public class DateOutils {
                 (mois <= 9 ? "0" : "") + mois + "/" + annee + " " +
                 (heure <= 9 ? "0" : "") + heure + ":" +
                 (minute <= 9 ? "0" : "") + minute;
+    }
+
+    public static Date getDate(String dateToString) {
+        int jour = Integer.parseInt(dateToString.substring(0, 2));
+        int mois = Integer.parseInt(dateToString.substring(3, 5));
+        int annee = Integer.parseInt(dateToString.substring(6, 10));
+
+        int heure = Integer.parseInt(dateToString.substring(11, 13));
+        int min = Integer.parseInt(dateToString.substring(14, 16));
+        return new Date(annee, mois, jour, heure, min, 0);
     }
 
 }
