@@ -112,12 +112,9 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
     }
 
     public void abonnementGPS() throws SecurityException {
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 10, this);
-        Location mobileLocation = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (mobileLocation != null) {
-            onLocationChanged(mobileLocation);
-            tGeo.setText("OUI");
-        }
+        //locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 10, this);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
     }
 
     public void desabonnementGPS() throws SecurityException {
