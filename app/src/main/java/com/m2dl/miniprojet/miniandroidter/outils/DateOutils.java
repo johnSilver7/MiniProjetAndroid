@@ -34,8 +34,8 @@ public class DateOutils {
 
     public static Date getDate(String dateToString) {
         int jour = Integer.parseInt(dateToString.substring(0, 2));
-        int mois = Integer.parseInt(dateToString.substring(3, 5));
-        int annee = Integer.parseInt(dateToString.substring(6, 10));
+        int mois = Integer.parseInt(dateToString.substring(3, 5)) - 1;
+        int annee = Integer.parseInt(dateToString.substring(6, 10)) - 1900;
 
         int heure = Integer.parseInt(dateToString.substring(11, 13));
         int min = Integer.parseInt(dateToString.substring(14, 16));

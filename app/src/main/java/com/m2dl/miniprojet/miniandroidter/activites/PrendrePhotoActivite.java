@@ -165,8 +165,9 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
                 public void onClick(DialogInterface dialog, int which) {
                     //TODO Verifier le titre de la zone entree
                     String titreNouvelleZone = eTitreZone.getText().toString();
+                    //TODO mettre salle et vrai geo
                     Zone nouvelleZone = new Zone(titreNouvelleZone,
-                            "TODO", new Point(latitude, longitude));
+                            "TODO", new Point(43.561993, 1.467992));//new Point(latitude, longitude));
                     nouvelleZone.sauvegarderEnBase();
                     actualiserSpinnerZone();
                     sZone.setSelection(sZone.getCount() - 1);
@@ -179,6 +180,8 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
             Date date = DateOutils.getDate(tDate.getText().toString());
             Photo photo = new Photo(photoPrise.getAbsolutePath(),
                     date, tag, zone, Utilisateur.utilisateurConnecte);
+
+            photo.setDrawable(imagePhotoPrise);
             photo.sauvegarderEnBase();
 
             builder.setMessage("Endroit enregistré avec succès !");

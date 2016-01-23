@@ -164,4 +164,22 @@
         android:layout_alignParentStart="true"
         android:onClick="getPhotoPrecedente" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/activite_endroit_num_photo"
+        android:layout_alignTop="@+id/activite_endroit_photo_suivante"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/activite_endroit_num_zone"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@id/activite_endroit_zone_precedente" />
+
 </RelativeLayout>
