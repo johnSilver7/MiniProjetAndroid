@@ -91,7 +91,7 @@ public class Campus {
         double xI = (xR * cosTETA) - (yR * sinTETA);
         double yI = (xR * sinTETA) + (yR * cosTETA);
 
-        // mode 'mirroir'
+        // mode 'mirroir' et mode 'informatique'
         return new Point(-xI, -yI);
     }
 

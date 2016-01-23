@@ -28,7 +28,7 @@ public class EndroitActivite extends Activity {
     private Photo photo;
 
     private Button bZonePrec, bZoneSuiv, bPhotoPrec, bPhotoSuiv;
-    private TextView tDate, tTag, tZone, tPosteur, tSalle;
+    private TextView tDate, tTag, tZone, tPosteur, tSalle, tNumPhoto, tNumZone;
     private ImageView tPhotoPrise;
 
     private List<Photo> listePhoto;
@@ -51,6 +51,8 @@ public class EndroitActivite extends Activity {
         bZoneSuiv = (Button) findViewById(R.id.activite_endroit_zone_suivante);
         bPhotoPrec = (Button) findViewById(R.id.activite_endroit_photo_precedent);
         bPhotoSuiv = (Button) findViewById(R.id.activite_endroit_photo_suivante);
+        tNumPhoto = (TextView) findViewById(R.id.activite_endroit_num_photo);
+        tNumZone = (TextView) findViewById(R.id.activite_endroit_num_zone);
 
         // Une activite m'a passe une photo
         String cheminPhoto = getIntent().getExtras().getString(CHEMIN_PHOTO_ENDROIT);
@@ -62,13 +64,13 @@ public class EndroitActivite extends Activity {
 
         initPhoto();
 
-        tZone.setText(photo.getZone().toString());
         zone = photo.getZone();
-        tSalle.setText(zone.getSalle());
-        afficherInformationPhoto(photo);
 
         listePhoto = zone.getListePhoto();
         listeZone = Zone.getListeZone();
+
+        afficherInformationPhoto(photo);
+        afficherInformationZone(zone);
 
         actualiserBoutons();
     }
@@ -93,7 +95,8 @@ public class EndroitActivite extends Activity {
         tTag.setText(photo.getTag().toString());
         tPosteur.setText(photo.getPosteur().toString());
         tPhotoPrise.setBackgroundColor(Color.GRAY);
-        //TODO tPhotoPrise.setBackgroundDrawable(photo.getDrawable());
+        tPhotoPrise.setBackgroundDrawable(photo.getDrawable());
+        tNumPhoto.setText((listePhoto.indexOf(photo) + 1) + "/" + listePhoto.size());
         actualiserBoutons();
     }
 
@@ -103,6 +106,7 @@ public class EndroitActivite extends Activity {
         listePhoto = zone.getListePhoto();
         photo = listePhoto.get(0);
         afficherInformationPhoto(photo);
+        tNumZone.setText((listeZone.indexOf(zone) + 1) + "/" + listeZone.size());
         actualiserBoutons();
     }
 
