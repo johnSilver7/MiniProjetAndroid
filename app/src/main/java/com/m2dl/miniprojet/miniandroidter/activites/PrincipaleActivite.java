@@ -52,38 +52,33 @@ public class PrincipaleActivite extends Activity {
     private void recupererBaseDonnees() {
         //TODO a modifier et completer
 
-        Zone zone1 = new Zone("zone1", "salle1",
-                Campus.getPointSurImage(new Point(43.568698, 1.465387)));
-        Zone zone2 = new Zone("zone2", "salle45",
-                Campus.getPointSurImage(new Point(43.560804, 1.473386)));
-        Zone zone3 = new Zone("zone3", "salle23",
-                Campus.getPointSurImage(new Point(43.564800, 1.458784)));
+        Zone zone1 = new Zone("zone1", "salle1", new Point(43.568698, 1.465387));
+        Zone zone2 = new Zone("zone2", "salle45", new Point(43.560804, 1.473386));
+        Zone zone3 = new Zone("zone3", "salle23", new Point(43.564647, 1.457949));
+        Zone zone4 = new Zone("zone4", "salle24", new Point(43.556975, 1.466417));
 
         Utilisateur user1 = new Utilisateur("test", "test");
 
         Photo photo1 = new Photo("photo1", new Date(), Tag.DEGRADATION, zone1, user1);
-        Photo photo2 = new Photo("", new Date(), Tag.RECYCLAGE, zone2, user1);
-        Photo photo3 = new Photo("", new Date(), Tag.FUITEDEAU, zone3, user1);
-
-        zone1.ajouterListePhoto(photo1);
-        zone1.ajouterListePhoto(photo2);
-        zone1.ajouterListePhoto(photo3);
-
-        zone2.ajouterListePhoto(photo3);
-        zone2.ajouterListePhoto(photo2);
-        zone2.ajouterListePhoto(photo1);
-
-        zone3.ajouterListePhoto(photo1);
-        zone3.ajouterListePhoto(photo3);
-        zone3.ajouterListePhoto(photo2);
+        Photo photo2 = new Photo("photo2", new Date(), Tag.RECYCLAGE, zone2, user1);
+        Photo photo3 = new Photo("photo3", new Date(), Tag.FUITEDEAU, zone3, user1);
+        Photo photo4 = new Photo("photo4", new Date(), Tag.FUITEDEAU, zone4, user1);
+        Photo photo5 = new Photo("photo5", new Date(), Tag.FUITEDEAU, zone1, user1);
+        Photo photo6 = new Photo("photo6", new Date(), Tag.FUITEDEAU, zone1, user1);
+        Photo photo7 = new Photo("photo7", new Date(), Tag.FUITEDEAU, zone2, user1);
 
         Zone.ajouterZone(zone1);
         Zone.ajouterZone(zone2);
         Zone.ajouterZone(zone3);
+        Zone.ajouterZone(zone4);
 
         Photo.ajouterPhoto(photo1);
         Photo.ajouterPhoto(photo2);
         Photo.ajouterPhoto(photo3);
+        Photo.ajouterPhoto(photo4);
+        Photo.ajouterPhoto(photo5);
+        Photo.ajouterPhoto(photo6);
+        Photo.ajouterPhoto(photo7);
 
         Utilisateur.ajouterUtilisateur(user1);
     }
@@ -115,11 +110,5 @@ public class PrincipaleActivite extends Activity {
     @Override
     public void onBackPressed() {
         //TODO DEMANDER DE QUITTER
-    }
-
-    public void quickTesting(View v) {
-        Intent intent = new Intent(this, EndroitActivite.class);
-        intent.putExtra("test", "photo1");
-        startActivity(intent);
     }
 }

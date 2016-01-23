@@ -1,8 +1,5 @@
-package com.m2dl.miniprojet.miniandroidter.activites;
+package com.m2dl.miniprojet.miniandroidter.utilitaires;
 
-import android.annotation.TargetApi;
-import android.os.Build;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -46,7 +43,7 @@ public class CampusImage {
     private void init() {
         tImage.getLayoutParams().width = largeur;
         tImage.getLayoutParams().height = longueur;
-        tImage.setOnTouchListener(onTouchListenerImageCampus);
+        //tImage.setOnTouchListener(onTouchListenerImageCampus);
     }
 
     private View.OnTouchListener onTouchListenerImageCampus = new View.OnTouchListener() {
@@ -120,4 +117,19 @@ public class CampusImage {
         tImage.setY(y);
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
+    public int getLargeur() {
+        return largeur;
+    }
+
+    public int getLongueur() {
+        return longueur;
+    }
 }

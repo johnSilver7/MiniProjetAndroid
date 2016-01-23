@@ -26,15 +26,6 @@
             android:onClick="onClickPrendrePhoto"
             android:nestedScrollingEnabled="false" />
 
-        <Button
-            style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New Button"
-            android:id="@+id/quickTest"
-            android:layout_gravity="right"
-            android:onClick="quickTesting" />
-
     </LinearLayout>
 
 </RelativeLayout>

@@ -84,7 +84,7 @@ public class Campus {
         return pI;
     }
 
-    public static Point convertirPointInformatique(Point pointReel) {
+    private static Point convertirPointInformatique(Point pointReel) {
         double cosTETA = Math.cos(Math.toRadians(TETA));
         double sinTETA = Math.sin(Math.toRadians(TETA));
 

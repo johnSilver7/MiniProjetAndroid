@@ -33,6 +33,8 @@ public class Photo {
         this.posteur = posteur;
 
         this.drawable = ImageOutils.convertir(ServeurService.recuperer(image));
+
+        zone.ajouterListePhoto(this);
     }
 
     public String getImage() {

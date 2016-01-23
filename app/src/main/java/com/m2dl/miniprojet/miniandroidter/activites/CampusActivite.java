@@ -1,11 +1,9 @@
 package com.m2dl.miniprojet.miniandroidter.activites;
 
 import android.app.Activity;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -16,6 +14,8 @@ import android.widget.TextView;
 import com.m2dl.miniprojet.miniandroidter.domaine.Tag;
 import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
 import com.m2dl.miniprojet.miniandroidter.domaine.Zone;
+import com.m2dl.miniprojet.miniandroidter.utilitaires.CampusImage;
+import com.m2dl.miniprojet.miniandroidter.utilitaires.Pointer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +32,7 @@ public class CampusActivite extends Activity {
     private RelativeLayout layoutImage;
     private CampusImage campusImage;
 
+    private DisplayMetrics dm;
     private int largeurEcran, longueurEcran;
 
     private final static String TEXTE_AUCUN_FILTRE = "Aucun filtre";
@@ -42,7 +43,7 @@ public class CampusActivite extends Activity {
         setContentView(R.layout.activite_campus);
 
         // Recuperation des dimensions de l'ecran
-        DisplayMetrics dm = new DisplayMetrics();
+        dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
         largeurEcran = dm.widthPixels;
         longueurEcran = dm.heightPixels;
@@ -87,8 +88,10 @@ public class CampusActivite extends Activity {
     private void afficherPointers() {
         // TODO enlever les pointeurs qui sont deja (s'il y en a)
         // TODO ne pas oublier les filtres !!!
+        Log.d("affichage pointer zone", "AFFICHE ZONES:");
         for (Zone zone: Zone.getListeZone()) {
-            //TODO
+            Log.d("ZONE AFFICHE", "ZONE AFFICHE");
+            new Pointer(this, layoutImage, dm, campusImage, zone);//TODO le garder (list)
         }
     }
 
@@ -110,7 +113,7 @@ public class CampusActivite extends Activity {
         tImageCampus.getLayoutParams().width = largeurLayout;
         tImageCampus.getLayoutParams().height = longueurLayout;
 
-        //campusImage = new CampusImage(tImageCampus, largeurLayout, longueurLayout);
+        campusImage = new CampusImage(tImageCampus, largeurLayout, longueurLayout);
     }
 
     private void afficherSpinnerTag() {
