@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
     tools:context=".PrendrePhotoActivite"
-    android:id="@+id/activite_prendre_photo_layout_pere">
+    android:id="@+id/activite_prendre_photo_layout_pere"
+    android:background="@drawable/fond">
 
 
     <TextView
@@ -62,7 +63,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:text="oui/non"
+                    android:text="non"
                     android:id="@+id/activite_prendre_photo_geolocalise" />
 
             </TableRow>
