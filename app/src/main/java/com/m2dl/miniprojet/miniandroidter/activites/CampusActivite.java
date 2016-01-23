@@ -86,6 +86,7 @@ public class CampusActivite extends Activity {
 
     private void afficherPointers() {
         // TODO enlever les pointeurs qui sont deja (s'il y en a)
+        // TODO ne pas oublier les filtres !!!
         for (Zone zone: Zone.getListeZone()) {
             //TODO
         }
