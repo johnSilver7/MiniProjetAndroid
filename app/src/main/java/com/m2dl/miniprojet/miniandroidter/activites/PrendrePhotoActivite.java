@@ -125,7 +125,7 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
 
     private void preRemplirLesChamps() {
         tTitre.setText("Pseudo: " + Utilisateur.utilisateurConnecte.getPseudo());
-        //tGeo.setText(GEOLOCALISE_OUI);//TODO A FAIRE
+        tGeo.setText(GEOLOCALISE_NON);
         tDate.setText(DateOutils.toStringDate(new Date().getTime()));
         sTag.setAdapter(new ArrayAdapter<>(
                 this, android.R.layout.simple_spinner_item, Tag.getListeString()));
@@ -153,7 +153,9 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
         if (imagePhotoPrise == null) {
             builder.setMessage("Vous devez prendre une photo.");
             builder.setNeutralButton("OK", null);
-        } else if (tGeo.getText().equals(GEOLOCALISE_NON)) {
+        } else if (tGeo.getText().equals(GEOLOCALISE_NON) &&
+                sZone.getSelectedItem().equals(TITRE_CREATION_NOUVELLE_ZONE)) {
+            // Demande d'etre geolocalise seulement pour une nouvelle zone.
             builder.setMessage("Vous devez être géolocalisé.");
             builder.setNeutralButton("OK", null);
         } else if (sZone.getSelectedItem().equals(TITRE_CREATION_NOUVELLE_ZONE)) {
@@ -165,9 +167,9 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
                 public void onClick(DialogInterface dialog, int which) {
                     //TODO Verifier le titre de la zone entree
                     String titreNouvelleZone = eTitreZone.getText().toString();
-                    //TODO mettre salle et vrai geo
+                    //TODO mettre salle
                     Zone nouvelleZone = new Zone(titreNouvelleZone,
-                            "TODO", new Point(43.561993, 1.467992));//new Point(latitude, longitude));
+                            "TODO", new Point(latitude, longitude));
                     nouvelleZone.sauvegarderEnBase();
                     actualiserSpinnerZone();
                     sZone.setSelection(sZone.getCount() - 1);

@@ -35,7 +35,7 @@ public class Zone {
     }
 
     public void sauvegarderEnBase() {
-        //TODO A FAIRE
+        //TODO sauvegarder zone en base
         ajouterZone(this);
     }
 

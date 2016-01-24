@@ -11,7 +11,7 @@ import java.io.File;
 public class ImageOutils {
 
     public static Drawable convertir(File fichier) {
-        //TODO
+        //TODO convertir file en drawable
        return null;
     }
 }

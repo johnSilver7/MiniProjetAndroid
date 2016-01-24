@@ -50,7 +50,7 @@ public class PrincipaleActivite extends Activity {
     }
 
     private void recupererBaseDonnees() {
-        //TODO a modifier et completer
+        //TODO recuperer la base de donnees
 
         Zone zone1 = new Zone("zone1", "salle1", new Point(43.568698, 1.465387));
         Zone zone2 = new Zone("zone2", "salle45", new Point(43.560804, 1.473386));

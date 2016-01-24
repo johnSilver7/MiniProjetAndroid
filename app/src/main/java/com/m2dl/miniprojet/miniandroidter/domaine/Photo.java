@@ -81,7 +81,7 @@ public class Photo {
     }
 
     public void sauvegarderEnBase() {
-        //TODO a faire
+        //TODO sauvegarder photo en base
         ajouterPhoto(this);
     }
 

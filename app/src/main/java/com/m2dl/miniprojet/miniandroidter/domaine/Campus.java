@@ -3,7 +3,7 @@ package com.m2dl.miniprojet.miniandroidter.domaine;
 import android.util.Log;
 
 /**
- * Created by yan on 15/01/16.
+ * Created by quentin on 15/01/16.
  */
 public class Campus {
 
@@ -58,20 +58,6 @@ public class Campus {
         pBasGauche.setY(LONGUEUR_IMAGE_CAMPUS);
         pBasDroite.setX(LARGEUR_IMAGE_CAMPUS);
         pBasDroite.setY(LONGUEUR_IMAGE_CAMPUS);
-
-       /* Log.d("HAUT GAUCHE", pHautGauche + "");
-        Log.d("HAUT DROITE", pHautDroite + "");
-        Log.d("BAS GAUCHE", pBasGauche + "");
-        Log.d("BAS DROITE", pBasDroite + "");
-
-        // TEST
-        Point p2TP1 = new Point(43.564549, 1.467902);
-        Point p2TP1Informatique = getPointSurImage(p2TP1);
-        Log.d("2TP1", p2TP1Informatique + "");
-
-        Point p3R3 = new Point(43.561324, 1.469542);
-        Point p3R3I = getPointSurImage(p3R3);
-        Log.d("p3R3I", p3R3I + "");*/
     }
 
     public static Point getPointSurImage(Point pointReel) {
@@ -96,8 +82,10 @@ public class Campus {
     }
 
     public static boolean estDansLeCampus(Point pointReel) {
-        //TODO
-        return true;
+        //TODO estDansLeCampus a utiliser
+        Point pI = getPointSurImage(pointReel);
+        return pI.getX() >= 0.0 && pI.getX() <= LARGEUR_IMAGE_CAMPUS &&
+                pI.getY() >= 0.0 && pI.getY() <= LONGUEUR_IMAGE_CAMPUS;
     }
 
 }
