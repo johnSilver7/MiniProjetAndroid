@@ -11,8 +11,14 @@ import android.widget.RelativeLayout;
 import com.m2dl.miniprojet.miniandroidter.activites.EndroitActivite;
 import com.m2dl.miniprojet.miniandroidter.activites.R;
 import com.m2dl.miniprojet.miniandroidter.domaine.Campus;
+import com.m2dl.miniprojet.miniandroidter.domaine.Photo;
 import com.m2dl.miniprojet.miniandroidter.domaine.Point;
+import com.m2dl.miniprojet.miniandroidter.domaine.Tag;
+import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
 import com.m2dl.miniprojet.miniandroidter.domaine.Zone;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by quentin on 23/01/16.
@@ -53,6 +59,14 @@ public class Pointer extends View implements View.OnTouchListener {
 
         // listener
         super.setOnTouchListener(this);
+
+        // ne pas afficher par defaut
+        afficher(false);
+    }
+
+    public void afficher(boolean affiche) {
+        super.setVisibility(affiche ? View.VISIBLE : View.INVISIBLE);
+        super.setEnabled(affiche);
     }
 
     @Override
@@ -64,5 +78,27 @@ public class Pointer extends View implements View.OnTouchListener {
             getContext().startActivity(intent);
         }
         return true;
+    }
+
+    public boolean containsPosteur(String posteur) {
+        for (Photo photo: zone.getListePhoto()) {
+            if (photo.getPosteur().getPseudo().equals(posteur)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean containsTag(String tag) {
+        for (Photo photo: zone.getListePhoto()) {
+            if (Tag.toString(photo.getTag()).equals(tag)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Zone getZone() {
+        return zone;
     }
 }

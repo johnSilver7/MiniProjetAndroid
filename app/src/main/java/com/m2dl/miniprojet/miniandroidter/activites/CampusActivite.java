@@ -35,6 +35,8 @@ public class CampusActivite extends Activity {
     private DisplayMetrics dm;
     private int largeurEcran, longueurEcran;
 
+    private List<Pointer> listePointer = new ArrayList<>();
+
     private final static String TEXTE_AUCUN_FILTRE = "Aucun filtre";
 
     @Override
@@ -62,9 +64,38 @@ public class CampusActivite extends Activity {
         afficherSpinnerTag();
         afficherSpinnerUtilisateur();
         afficherSpinnerZone();
+        initPointers();
         afficherPointers();
 
         parametrerSpinners();
+    }
+
+    private void initPointers() {
+        for (Zone zone: Zone.getListeZone()) {
+            listePointer.add(new Pointer(this, layoutImage, dm, campusImage, zone));
+        }
+    }
+
+    private void afficherPointers() {
+        for (Pointer pointer: listePointer) {
+            pointer.afficher(true);
+
+            // filtrage utilisateur
+            if (sUtilisateur.getSelectedItemPosition() != 0
+                    && !pointer.containsPosteur((String) sUtilisateur.getSelectedItem())) {
+                pointer.afficher(false);
+            }
+            // filtrage tag
+            if (sTag.getSelectedItemPosition() != 0
+                    && !pointer.containsTag((String) sTag.getSelectedItem())) {
+                pointer.afficher(false);
+            }
+            // filtrage zone
+            if (sZone.getSelectedItemPosition() != 0
+                    && !pointer.getZone().equals(Zone.getZone((String) sZone.getSelectedItem()))) {
+                pointer.afficher(false);
+            }
+        }
     }
 
     private void parametrerSpinners() {
@@ -84,16 +115,6 @@ public class CampusActivite extends Activity {
             // rien ?
         }
     };
-
-    private void afficherPointers() {
-        // TODO enlever les pointeurs qui sont deja (s'il y en a)
-        // TODO ne pas oublier les filtres !!!
-        Log.d("affichage pointer zone", "AFFICHE ZONES:");
-        for (Zone zone: Zone.getListeZone()) {
-            Log.d("ZONE AFFICHE", "ZONE AFFICHE");
-            new Pointer(this, layoutImage, dm, campusImage, zone);//TODO le garder (list)
-        }
-    }
 
     private void afficherTitre() {
         //TODO ajouter geolocalise
@@ -148,7 +169,6 @@ public class CampusActivite extends Activity {
 
     @Override
     public void onBackPressed() {
-        //TODO autre truc a faire ?
         finish();
     }
 }
