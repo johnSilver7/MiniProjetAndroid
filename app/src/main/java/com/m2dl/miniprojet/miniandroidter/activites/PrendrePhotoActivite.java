@@ -279,9 +279,7 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
             tPhoto.getLayoutParams().width = largeurPhoto;
         }
 
-        tPhoto.setBackgroundDrawable(null);
-        tPhoto.setBackgroundColor(Color.GRAY);
-        tPhoto.setText("Prenez une photo");
+        tPhoto.setBackgroundResource(R.drawable.camera);
     }
 
     private void afficherPhoto() {
