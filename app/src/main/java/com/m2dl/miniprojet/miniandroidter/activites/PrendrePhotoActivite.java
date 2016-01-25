@@ -124,11 +124,13 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
     }
 
     private void preRemplirLesChamps() {
-        tTitre.setText("Pseudo: " + Utilisateur.utilisateurConnecte.getPseudo());
+        tTitre.setText("Bonjour " + Utilisateur.utilisateurConnecte.getPseudo() + " !");
         tGeo.setText(GEOLOCALISE_NON);
         tDate.setText(DateOutils.toStringDate(new Date().getTime()));
+
         sTag.setAdapter(new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, Tag.getListeString()));
+                this, R.layout.spinner_layout, Tag.getListeString()));
+
         actualiserSpinnerZone();
     }
 
@@ -139,7 +141,7 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
             listeZoneSpinner.add(zone.toString());
         }
         sZone.setAdapter(new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, listeZoneSpinner));
+                this, R.layout.spinner_layout, listeZoneSpinner));
     }
 
     public void onClickPrendrePhotoRecommencer(View v) {

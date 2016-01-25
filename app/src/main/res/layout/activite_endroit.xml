@@ -23,6 +23,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Date : "
+                android:textStyle="italic"
                 android:id="@+id/activite_endroit_legend_date" />
 
             <TextView
@@ -44,6 +45,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Tag : "
+                android:textStyle="italic"
                 android:id="@+id/activite_endroit_legend_tag" />
 
             <TextView
@@ -64,6 +66,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Utilisateur : "
+                android:textStyle="italic"
                 android:id="@+id/activite_endroit_legend_utilisateur" />
 
             <TextView
@@ -83,6 +86,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Zone : "
+                android:textStyle="italic"
                 android:id="@+id/activite_endroit_legend_zone" />
 
             <TextView
@@ -102,6 +106,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Salle : "
+                android:textStyle="italic"
                 android:id="@+id/activite_endroit_legend_salle" />
 
             <TextView
