@@ -11,15 +11,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="PSEUDO"
+        android:text="Bonjour"
         android:id="@+id/activite_prendre_photo_titre"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="la photo"
         android:id="@+id/activite_prendre_photo_view_photo"
         android:layout_below="@id/activite_prendre_photo_titre"
         android:layout_centerHorizontal="true"
@@ -57,6 +57,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Géolocalisé:"
+                    android:textStyle="italic"
                     android:id="@+id/textView4" />
 
                 <TextView
@@ -78,6 +79,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Date:"
+                    android:textStyle="italic"
                     android:id="@+id/textView6" />
 
                 <TextView
@@ -98,6 +100,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="TAG:"
+                    android:textStyle="italic"
                     android:id="@+id/textView8" />
 
                 <Spinner
@@ -116,6 +119,7 @@
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceLarge"
                     android:text="Zone:"
+                    android:textStyle="italic"
                     android:id="@+id/textView9" />
 
                 <Spinner

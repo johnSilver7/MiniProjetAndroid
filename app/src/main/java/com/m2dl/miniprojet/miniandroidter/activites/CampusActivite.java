@@ -144,7 +144,7 @@ public class CampusActivite extends Activity {
             listeTagSpinner.add(Tag.toString(tag));
         }
         sTag.setAdapter(new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, listeTagSpinner));
+                this, R.layout.spinner_layout, listeTagSpinner));
     }
 
     private void afficherSpinnerUtilisateur() {
@@ -154,7 +154,7 @@ public class CampusActivite extends Activity {
             listeUtilisateurSpinner.add(utilisateur.toString());
         }
         sUtilisateur.setAdapter(new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, listeUtilisateurSpinner));
+                this, R.layout.spinner_layout, listeUtilisateurSpinner));
     }
 
     private void afficherSpinnerZone() {
@@ -164,7 +164,7 @@ public class CampusActivite extends Activity {
             listeZoneSpinner.add(zone.toString());
         }
         sZone.setAdapter(new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, listeZoneSpinner));
+                this, R.layout.spinner_layout, listeZoneSpinner));
     }
 
     @Override
