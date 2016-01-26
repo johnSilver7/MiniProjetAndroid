@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 
 import com.m2dl.miniprojet.miniandroidter.domaine.Campus;
 import com.m2dl.miniprojet.miniandroidter.domaine.Photo;
@@ -25,10 +26,10 @@ import java.util.Date;
  */
 public class PrincipaleActivite extends Activity {
 
-    private static Thread threadBDD;
-
     private final static int DELAI_MISE_A_JOUR_BDD = 1000;
     private final static int REQUETE_PRENDRE_PHOTO = 1;
+
+    private Button bSeDeconnecter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,35 +44,37 @@ public class PrincipaleActivite extends Activity {
             StrictMode.setThreadPolicy(policy);
         }
 
+        bSeDeconnecter = (Button) findViewById(R.id.activite_principale_bouton_deconnecter);
+
         Campus.init();
         recupererBaseDonnees();
         seConnecterSiPossible();
+        afficherBoutonSeDeconnecter();
+    }
+
+    private void afficherBoutonSeDeconnecter() {
+        boolean affiche = (Utilisateur.utilisateurConnecte != null);
+        bSeDeconnecter.setVisibility(affiche ? View.VISIBLE : View.INVISIBLE);
+        bSeDeconnecter.setEnabled(affiche);
     }
 
     private void seConnecterSiPossible() {
         FichierService.init(getExternalFilesDir(null) + "");
         String login = FichierService.lireDansFichier();
-        UtilisateurService.connecter(login);
+        Utilisateur.utilisateurConnecte = UtilisateurService.connecter(login);
     }
 
     private void recupererBaseDonnees() {
-        final Handler handler = new Handler();
-        handler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                threadBDD = new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        handler.postAtTime(this, DELAI_MISE_A_JOUR_BDD);
-                    }
-                });
-                threadBDD.start();
-            }
-        }, 0);
+        ServeurService.chargerBaseDeDonnees();
     }
 
     public void onClickAfficherCampus(View view) {
         startActivity(new Intent(this, CampusActivite.class));
+    }
+
+    public void onClickSeDeconnecter(View view) {
+        Utilisateur.utilisateurConnecte = null;
+        afficherBoutonSeDeconnecter();
     }
 
     public void onClickPrendrePhoto(View view) {
@@ -92,6 +95,7 @@ public class PrincipaleActivite extends Activity {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+        afficherBoutonSeDeconnecter();
     }
 
     @Override

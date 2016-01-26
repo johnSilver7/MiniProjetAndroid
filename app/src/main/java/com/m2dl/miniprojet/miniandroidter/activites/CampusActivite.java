@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.m2dl.miniprojet.miniandroidter.domaine.Tag;
 import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
 import com.m2dl.miniprojet.miniandroidter.domaine.Zone;
+import com.m2dl.miniprojet.miniandroidter.services.ServeurService;
 import com.m2dl.miniprojet.miniandroidter.utilitaires.CampusImage;
 import com.m2dl.miniprojet.miniandroidter.utilitaires.Pointer;
 
@@ -43,6 +44,10 @@ public class CampusActivite extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activite_campus);
+
+        // Met a jour la base de donnees
+        // TODO charger la base dans un autre thread
+        //ServeurService.chargerBaseDeDonnees();
 
         // Recuperation des dimensions de l'ecran
         dm = new DisplayMetrics();

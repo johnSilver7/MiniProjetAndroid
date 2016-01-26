@@ -27,12 +27,7 @@ public class UtilisateurService {
     }
 
     public static Utilisateur connecter(String pseudo) {
-        for (Utilisateur utilisateur: Utilisateur.getListeUtilisateur()) {
-            if (utilisateur.getPseudo().equals(pseudo)) {
-                return utilisateur;
-            }
-        }
-        return null;
+        return Utilisateur.getUtilisateur(pseudo);
     }
 
 }

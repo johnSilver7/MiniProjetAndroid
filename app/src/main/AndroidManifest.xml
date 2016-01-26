@@ -17,7 +17,9 @@
         android:label="Clean Campus"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PrincipaleActivite">
+        <activity
+            android:name=".PrincipaleActivite"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,19 +27,24 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CampusActivite">
+            android:name=".CampusActivite"
+            android:screenOrientation="sensorPortrait">
         </activity>
         <activity
-            android:name=".ConnexionActivite">
+            android:name=".ConnexionActivite"
+            android:screenOrientation="sensorPortrait">
         </activity>
         <activity
-            android:name=".InscriptionActivite">
+            android:name=".InscriptionActivite"
+            android:screenOrientation="sensorPortrait">
         </activity>
         <activity
-            android:name=".PrendrePhotoActivite">
+            android:name=".PrendrePhotoActivite"
+            android:screenOrientation="sensorPortrait">
         </activity>
         <activity
-            android:name=".EndroitActivite">
+            android:name=".EndroitActivite"
+            android:screenOrientation="sensorPortrait">
         </activity>
     </application>
 

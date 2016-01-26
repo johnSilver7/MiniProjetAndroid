@@ -42,6 +42,7 @@ import com.m2dl.miniprojet.miniandroidter.domaine.Tag;
 import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
 import com.m2dl.miniprojet.miniandroidter.domaine.Zone;
 import com.m2dl.miniprojet.miniandroidter.outils.DateOutils;
+import com.m2dl.miniprojet.miniandroidter.services.ServeurService;
 import com.m2dl.miniprojet.miniandroidter.utilitaires.Geolocalisation;
 
 import org.w3c.dom.Text;
@@ -74,6 +75,10 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activite_prendre_photo);
+
+        // Met a jour la base de donnees
+        // TODO charger la base dans un autre thread
+        //ServeurService.chargerBaseDeDonnees();
 
         // Recuperation des dimensions de l'ecran
         DisplayMetrics dm = new DisplayMetrics();

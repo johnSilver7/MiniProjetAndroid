@@ -14,8 +14,7 @@
         android:text="Bonjour"
         android:id="@+id/activite_prendre_photo_titre"
         android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_centerHorizontal="true" />
 
     <TextView
         android:layout_width="wrap_content"
