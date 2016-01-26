@@ -2,8 +2,11 @@ package com.m2dl.miniprojet.miniandroidter.domaine;
 
 import android.graphics.drawable.Drawable;
 
-import com.m2dl.miniprojet.miniandroidter.outils.ImageOutils;
 import com.m2dl.miniprojet.miniandroidter.services.ServeurService;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -31,10 +34,21 @@ public class Photo {
         this.tag = tag;
         this.zone = zone;
         this.posteur = posteur;
-
-        this.drawable = ImageOutils.convertir(ServeurService.recuperer(image));
-
         zone.ajouterListePhoto(this);
+    }
+
+    public Photo(JSONObject jsonData) {
+        try {
+            this.image = jsonData.getString("image");
+            this.date = new Date(Long.parseLong(jsonData.getString("date")));
+            this.tag = Tag.getTag(jsonData.getString("tag"));
+            this.zone = Zone.getZone(jsonData.getString("zone"));
+            this.posteur = Utilisateur.getUtilisateur(jsonData.getString("posteur"));
+            // TODO recuperer drawable de la photo
+            this.zone.ajouterListePhoto(this);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getImage() {
@@ -81,8 +95,29 @@ public class Photo {
     }
 
     public void sauvegarderEnBase() {
-        //TODO sauvegarder photo en base
-        ajouterPhoto(this);
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("image", image);
+            jsonObject.put("date", date.getTime());
+            jsonObject.put("tag", Tag.toString(tag));
+            jsonObject.put("zone", zone.toString());
+            jsonObject.put("posteur", posteur.getPseudo());
+            ServeurService.sauvegarder("Photo", jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ajouterPhoto(this); // ajout local
+    }
+
+    public static void setListeAPartirDeJsonArray(JSONArray jsonArray) {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                JSONObject jsonData = (JSONObject) jsonArray.get(i);
+                ajouterPhoto(new Photo(jsonData));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void setDrawable(Drawable drawable) {

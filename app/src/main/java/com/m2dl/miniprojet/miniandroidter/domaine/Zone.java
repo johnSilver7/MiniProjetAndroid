@@ -1,5 +1,11 @@
 package com.m2dl.miniprojet.miniandroidter.domaine;
 
+import com.m2dl.miniprojet.miniandroidter.services.ServeurService;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +17,6 @@ public class Zone {
     private String salle;
     private Point point;
 
-
     private static List<Zone> listeZone = new ArrayList<>();
 
     private List<Photo> listePhoto = new ArrayList<Photo>();
@@ -20,6 +25,18 @@ public class Zone {
         this.nom = nom;
         this.salle = salle;
         this.point = point;
+    }
+
+    public Zone(JSONObject jsonData) {
+        try {
+            this.nom = jsonData.getString("nom");
+            this.salle = jsonData.getString("salle");
+            double latitude = Double.parseDouble(jsonData.getString("latitude"));
+            double longitude = Double.parseDouble(jsonData.getString("longitude"));
+            this.point = new Point(latitude, longitude);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     public String getNom() {
@@ -35,8 +52,17 @@ public class Zone {
     }
 
     public void sauvegarderEnBase() {
-        //TODO sauvegarder zone en base
-        ajouterZone(this);
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("nom", nom);
+            jsonObject.put("salle", salle);
+            jsonObject.put("latitude", point.getX());
+            jsonObject.put("longitude", point.getY());
+            ServeurService.sauvegarder("Zone", jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ajouterZone(this); // ajout local
     }
 
     public static List<Zone> getListeZone() {
@@ -70,6 +96,17 @@ public class Zone {
     public void ajouterListePhoto(Photo photo) {
         if (!listePhoto.contains(photo)) {
             this.listePhoto.add(photo);
+        }
+    }
+
+    public static void setListeAPartirDeJsonArray(JSONArray jsonArray) {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                JSONObject jsonData = (JSONObject) jsonArray.get(i);
+                ajouterZone(new Zone(jsonData));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
         }
     }
 

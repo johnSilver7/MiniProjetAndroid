@@ -117,8 +117,8 @@ public class CampusActivite extends Activity {
     };
 
     private void afficherTitre() {
-        //TODO ajouter geolocalise
-        tTitre.setText("Geolocalisé: <TODO>");
+        tTitre.setText(Utilisateur.utilisateurConnecte == null ?
+                "Non connecté" : "Connecté: " + Utilisateur.utilisateurConnecte);
     }
 
     private void afficherCarte() {

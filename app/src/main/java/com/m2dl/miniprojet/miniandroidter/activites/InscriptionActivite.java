@@ -40,7 +40,6 @@ public class InscriptionActivite extends Activity {
             builder.setMessage("Mots de passe différents.");
             builder.setNeutralButton("ok", null);
         } else if (UtilisateurService.enregistrer(utilisateur)) {
-            Utilisateur.ajouterUtilisateur(utilisateur);
             builder.setMessage("Inscription réussie !");
             builder.setNeutralButton("ok", new DialogInterface.OnClickListener() {
                 @Override
@@ -49,7 +48,7 @@ public class InscriptionActivite extends Activity {
                 }
             });
         } else {
-            builder.setMessage("Echec d'inscription !");
+            builder.setMessage("Echec: Pseudo déjà utilisé!");
             builder.setNeutralButton("ok", null);
         }
         builder.show();

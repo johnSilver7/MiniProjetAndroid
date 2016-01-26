@@ -1,5 +1,11 @@
 package com.m2dl.miniprojet.miniandroidter.domaine;
 
+import com.m2dl.miniprojet.miniandroidter.services.ServeurService;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +24,15 @@ public class Utilisateur {
         this.mdp = mdp;
     }
 
+    public Utilisateur(JSONObject jsonData) {
+        try {
+            this.pseudo = jsonData.getString("pseudo");
+            this.mdp = jsonData.getString("mdp");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String getPseudo() {
         return pseudo;
     }
@@ -34,6 +49,38 @@ public class Utilisateur {
         if (!listeUtilisateur.contains(utilisateur)) {
             listeUtilisateur.add(utilisateur);
         }
+    }
+
+    public static Utilisateur getUtilisateur(String pseudo) {
+        for (Utilisateur utilisateur: listeUtilisateur) {
+            if (utilisateur.pseudo.equals(pseudo)) {
+                return utilisateur;
+            }
+        }
+        return null;
+    }
+
+    public static void setListeAPartirDeJsonArray(JSONArray jsonArray) {
+        for (int i = 0; i < jsonArray.length(); i++) {
+            try {
+                JSONObject jsonData = (JSONObject) jsonArray.get(i);
+                ajouterUtilisateur(new Utilisateur(jsonData));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void sauvegarderEnBase() {
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("pseudo", pseudo);
+            jsonObject.put("mdp", mdp);
+            ServeurService.sauvegarder("Utilisateur", jsonObject);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        ajouterUtilisateur(this); // ajout local
     }
 
     @Override

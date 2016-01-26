@@ -3,6 +3,7 @@ package com.m2dl.miniprojet.miniandroidter.activites;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.m2dl.miniprojet.miniandroidter.domaine.Tag;
 import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
 import com.m2dl.miniprojet.miniandroidter.domaine.Zone;
 import com.m2dl.miniprojet.miniandroidter.services.FichierService;
+import com.m2dl.miniprojet.miniandroidter.services.ServeurService;
 import com.m2dl.miniprojet.miniandroidter.services.UtilisateurService;
 
 import java.util.Date;
@@ -23,6 +25,9 @@ import java.util.Date;
  */
 public class PrincipaleActivite extends Activity {
 
+    private static Thread threadBDD;
+
+    private final static int DELAI_MISE_A_JOUR_BDD = 1000;
     private final static int REQUETE_PRENDRE_PHOTO = 1;
 
     @Override
@@ -50,37 +55,19 @@ public class PrincipaleActivite extends Activity {
     }
 
     private void recupererBaseDonnees() {
-        //TODO recuperer la base de donnees
-
-        Zone zone1 = new Zone("zone1", "salle1", new Point(43.568698, 1.465387));
-        Zone zone2 = new Zone("zone2", "salle45", new Point(43.560804, 1.473386));
-        Zone zone3 = new Zone("zone3", "salle23", new Point(43.564647, 1.457949));
-        Zone zone4 = new Zone("zone4", "salle24", new Point(43.556975, 1.466417));
-
-        Utilisateur user1 = new Utilisateur("test", "test");
-
-        Photo photo1 = new Photo("photo1", new Date(), Tag.DEGRADATION, zone1, user1);
-        Photo photo2 = new Photo("photo2", new Date(), Tag.RECYCLAGE, zone2, user1);
-        Photo photo3 = new Photo("photo3", new Date(), Tag.FUITEDEAU, zone3, user1);
-        Photo photo4 = new Photo("photo4", new Date(), Tag.FUITEDEAU, zone4, user1);
-        Photo photo5 = new Photo("photo5", new Date(), Tag.FUITEDEAU, zone1, user1);
-        Photo photo6 = new Photo("photo6", new Date(), Tag.FUITEDEAU, zone1, user1);
-        Photo photo7 = new Photo("photo7", new Date(), Tag.FUITEDEAU, zone2, user1);
-
-        Zone.ajouterZone(zone1);
-        Zone.ajouterZone(zone2);
-        Zone.ajouterZone(zone3);
-        Zone.ajouterZone(zone4);
-
-        Photo.ajouterPhoto(photo1);
-        Photo.ajouterPhoto(photo2);
-        Photo.ajouterPhoto(photo3);
-        Photo.ajouterPhoto(photo4);
-        Photo.ajouterPhoto(photo5);
-        Photo.ajouterPhoto(photo6);
-        Photo.ajouterPhoto(photo7);
-
-        Utilisateur.ajouterUtilisateur(user1);
+        final Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                threadBDD = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        handler.postAtTime(this, DELAI_MISE_A_JOUR_BDD);
+                    }
+                });
+                threadBDD.start();
+            }
+        }, 0);
     }
 
     public void onClickAfficherCampus(View view) {
@@ -109,6 +96,6 @@ public class PrincipaleActivite extends Activity {
 
     @Override
     public void onBackPressed() {
-        //TODO DEMANDER DE QUITTER
+        // rien
     }
 }

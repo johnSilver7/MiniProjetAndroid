@@ -35,12 +35,14 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.m2dl.miniprojet.miniandroidter.domaine.Campus;
 import com.m2dl.miniprojet.miniandroidter.domaine.Photo;
 import com.m2dl.miniprojet.miniandroidter.domaine.Point;
 import com.m2dl.miniprojet.miniandroidter.domaine.Tag;
 import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
 import com.m2dl.miniprojet.miniandroidter.domaine.Zone;
 import com.m2dl.miniprojet.miniandroidter.outils.DateOutils;
+import com.m2dl.miniprojet.miniandroidter.utilitaires.Geolocalisation;
 
 import org.w3c.dom.Text;
 
@@ -55,8 +57,6 @@ import java.util.List;
 public class PrendrePhotoActivite extends Activity implements LocationListener {
 
     private static int largeurEcran, longueurEcran;
-
-    double longitude, latitude;
 
     private LocationManager locationManager;
     private static File photoPrise;
@@ -158,19 +158,25 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
             // Demande d'etre geolocalise seulement pour une nouvelle zone.
             builder.setMessage("Vous devez être géolocalisé.");
             builder.setNeutralButton("OK", null);
+        } else if (!Campus.estDansLeCampus(new Point(
+                        Geolocalisation.latitude, Geolocalisation.longitude))) {
+            builder.setMessage("Vous devez être dans le campus.");
+            builder.setNeutralButton("OK", null);
         } else if (sZone.getSelectedItem().equals(TITRE_CREATION_NOUVELLE_ZONE)) {
             final EditText eTitreZone = new EditText(this);
-            builder.setView(getFormulaireCreationZone(eTitreZone));
+            final EditText eSalleZone = new EditText(this);
+            builder.setView(getFormulaireCreationZone(eTitreZone, eSalleZone));
             builder.setNegativeButton("Annuler", null);
             builder.setPositiveButton("Créer", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //TODO Verifier le titre de la zone entree
                     String titreNouvelleZone = eTitreZone.getText().toString();
-                    //TODO mettre salle
-                    Zone nouvelleZone = new Zone(titreNouvelleZone,
-                            "TODO", new Point(latitude, longitude));
-                    nouvelleZone.sauvegarderEnBase();
+                    String salleNouvelleZone = eSalleZone.getText().toString();
+                    Zone nouvelleZone = new Zone(titreNouvelleZone, salleNouvelleZone,
+                            new Point(Geolocalisation.latitude, Geolocalisation.longitude));
+                    if (!Zone.getListeZone().contains(nouvelleZone)) {
+                        nouvelleZone.sauvegarderEnBase();
+                    }
                     actualiserSpinnerZone();
                     sZone.setSelection(sZone.getCount() - 1);
                 }
@@ -205,7 +211,7 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
         builder.show();
     }
 
-    private View getFormulaireCreationZone(EditText eTitreZone) {
+    private View getFormulaireCreationZone(EditText eTitreZone, EditText eSalleZone) {
         final float tailleTexte = 20f;
 
         // Layout pere
@@ -245,9 +251,27 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
         ligne1.addView(tTitreZone);
         ligne1.addView(eTitreZone);
 
+        // Ligne de la salle de la zone
+        TableRow ligne2 = new TableRow(this);
+        ligne2.setLayoutParams(new TableRow.LayoutParams(
+                TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT));
+
+        TextView tSalleZone = new TextView(this);
+        tSalleZone.setTextColor(Color.BLACK);
+        tSalleZone.setTextSize(tailleTexte);
+        tSalleZone.setText("Salle:");
+
+        eSalleZone.setTextColor(Color.BLACK);
+        eSalleZone.setTextSize(tailleTexte);
+        eSalleZone.setHint("Salle de la nouvelle zone");
+
+        ligne2.addView(tSalleZone);
+        ligne2.addView(eSalleZone);
+
         // Ajouts au pere
         layoutPere.addView(tTitreFormulaire);
         layoutPere.addView(ligne1);
+        layoutPere.addView(ligne2);
         return layoutPere;
     }
 
@@ -301,9 +325,8 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
 
     @Override
     public void onLocationChanged(Location location) {
-        this.latitude = location.getLatitude();
-        this.longitude = location.getLongitude();
-        Log.d("GEO", this.latitude + " | " + this.longitude);
+        Geolocalisation.latitude = location.getLatitude();
+        Geolocalisation.longitude = location.getLongitude();
         tGeo.setText(GEOLOCALISE_OUI);
     }
 

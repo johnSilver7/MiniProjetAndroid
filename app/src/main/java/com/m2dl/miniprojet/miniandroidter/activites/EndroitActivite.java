@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.m2dl.miniprojet.miniandroidter.domaine.Photo;
 import com.m2dl.miniprojet.miniandroidter.domaine.Zone;
 import com.m2dl.miniprojet.miniandroidter.outils.DateOutils;
-import com.m2dl.miniprojet.miniandroidter.outils.ImageOutils;
 import com.m2dl.miniprojet.miniandroidter.services.ServeurService;
 
 import java.util.List;

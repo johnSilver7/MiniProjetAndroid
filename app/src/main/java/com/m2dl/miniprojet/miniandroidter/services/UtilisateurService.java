@@ -8,6 +8,12 @@ import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
 public class UtilisateurService {
 
     public static boolean enregistrer(Utilisateur utilisateur) {
+        for (Utilisateur utilisateurEnregistre: Utilisateur.getListeUtilisateur()) {
+            if (utilisateurEnregistre.getPseudo().equals(utilisateur)) {
+                return false;
+            }
+        }
+        utilisateur.sauvegarderEnBase();
         return true;
     }
 

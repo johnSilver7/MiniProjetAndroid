@@ -82,7 +82,6 @@ public class Campus {
     }
 
     public static boolean estDansLeCampus(Point pointReel) {
-        //TODO estDansLeCampus a utiliser
         Point pI = getPointSurImage(pointReel);
         return pI.getX() >= 0.0 && pI.getX() <= LARGEUR_IMAGE_CAMPUS &&
                 pI.getY() >= 0.0 && pI.getY() <= LONGUEUR_IMAGE_CAMPUS;
