@@ -62,14 +62,14 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
 
     private LocationManager locationManager;
     private static File photoPrise;
-    private static Drawable imagePhotoPrise;
+    private static Bitmap imagePhotoPrise;
     private final static int REQUETE_CAPTURE = 2;
     private int largeurPhoto = 0, longueurPhoto = 0;
 
     private TextView tTitre, tPhoto, tGeo, tDate;
     private Spinner sTag, sZone;
 
-    private final static String GEOLOCALISE_NON = "non", GEOLOCALISE_OUI = "oui",
+    private final static String GEOLOCALISE_NON = "calcul...", GEOLOCALISE_OUI = "oui",
             TITRE_CREATION_NOUVELLE_ZONE = "Nouvelle";
 
     @Override
@@ -95,7 +95,7 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
         sTag = (Spinner) findViewById(R.id.activite_prendre_photo_spinner_tag);
         sZone = (Spinner) findViewById(R.id.activite_prendre_photo_spinner_zone);
 
-        initPhoto();
+        afficherPhoto();
         preRemplirLesChamps();
     }
 
@@ -205,7 +205,7 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
             Date date = DateOutils.getDate(tDate.getText().toString());
             Photo photo = new Photo(date, tag, zone, Utilisateur.utilisateurConnecte);
 
-            photo.setDrawable(imagePhotoPrise);
+            photo.setBitmap(imagePhotoPrise);
             photo.sauvegarderEnBase();
 
             builder.setMessage("Endroit enregistré avec succès !");
@@ -302,8 +302,7 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUETE_CAPTURE && resultCode == RESULT_OK) {
-            Bitmap bitmap = BitmapFactory.decodeFile(photoPrise.getAbsolutePath());
-            imagePhotoPrise = new BitmapDrawable(getResources(), bitmap);
+            imagePhotoPrise = BitmapFactory.decodeFile(photoPrise.getAbsolutePath());
             afficherPhoto();
         } else {
             //imagePhotoPrise = null;
@@ -311,23 +310,19 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
         }
     }
 
-    private void initPhoto() {
+    private void afficherPhoto() {
         if (largeurPhoto == 0) {
             largeurPhoto = largeurEcran * 7 / 12;
             longueurPhoto = longueurEcran * 7 / 12;
             tPhoto.getLayoutParams().height = longueurPhoto;
             tPhoto.getLayoutParams().width = largeurPhoto;
+            tPhoto.setText("");
         }
 
-        tPhoto.setBackgroundResource(R.drawable.camera);
-    }
-
-    private void afficherPhoto() {
         if (imagePhotoPrise == null) {
-            initPhoto();
+            tPhoto.setBackgroundDrawable(getResources().getDrawable(R.drawable.camera));
         } else {
-            tPhoto.setBackgroundDrawable(imagePhotoPrise);
-            tPhoto.setText("");
+            tPhoto.setBackgroundDrawable(new BitmapDrawable(imagePhotoPrise));
         }
     }
 

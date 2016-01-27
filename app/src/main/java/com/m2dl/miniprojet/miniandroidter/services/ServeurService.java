@@ -1,10 +1,12 @@
 package com.m2dl.miniprojet.miniandroidter.services;
 
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 
+import com.android.internal.http.multipart.MultipartEntity;
 import com.m2dl.miniprojet.miniandroidter.domaine.Photo;
 import com.m2dl.miniprojet.miniandroidter.domaine.Utilisateur;
 import com.m2dl.miniprojet.miniandroidter.domaine.Zone;
@@ -13,17 +15,20 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -41,8 +46,8 @@ public class ServeurService {
 
         if (classe.equals("Photo")) {
             try {
-                // TODO uploadPhoto a decommenter
-                //uploadPhoto(jsonObject.get("image"), Photo.PATH + Photo.NOM_PHOTO_TEMP);
+                uploadPhoto(jsonObject.getString("image"), Photo.PATH + Photo.NOM_PHOTO_TEMP,
+                        Photo.getPhoto(jsonObject.getString("image")).getBitmap());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -54,13 +59,13 @@ public class ServeurService {
         Log.d("reponse SERVEUR", reponse);
     }
 
-    public static Drawable getImageDrawable(String image) {
+    public static Bitmap getImageBitmap(String image) {
         try {
             URL urlImage = new URL(URL_SERVEUR + "/photos/" + image);
             HttpURLConnection connection =
                     (HttpURLConnection) urlImage.openConnection();
             InputStream inputStream = connection.getInputStream();
-            return new BitmapDrawable(BitmapFactory.decodeStream(inputStream));
+            return BitmapFactory.decodeStream(inputStream);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -133,68 +138,85 @@ public class ServeurService {
         }
     }
 
-    // TODO upload Photo a verifier et completer
-    /*private static boolean uploadPhoto(String nomImage, String cheminDurImage) {
-        String iFileName = ???;
+    private static boolean uploadPhoto(String nomImage, String cheminDurImage, Bitmap bitmap) {
+        HttpURLConnection conn = null;
+        DataOutputStream dos = null;
         String lineEnd = "\r\n";
         String twoHyphens = "--";
         String boundary = "*****";
-        try {
-            URL connectURL = new URL(URL_SERVEUR + "/upload.php");
-            HttpURLConnection conn = (HttpURLConnection) connectURL.openConnection();
+        int bytesRead, bytesAvailable, bufferSize;
+        byte[] buffer;
+        int maxBufferSize = 1 * 1024 * 1024;
+        File sourceFile = new File(cheminDurImage);
 
-            conn.setDoInput(true);
-            conn.setDoOutput(true);
-            conn.setUseCaches(false);
+        if (!sourceFile.isFile()) {
+            Log.d("FICHIER", "FAUX");
+            return false;
+        }
+
+        try {
+            // open a URL connection to the Servlet
+            FileInputStream fileInputStream = new FileInputStream(sourceFile);
+            URL url = new URL(URL_SERVEUR + "/upload.php?choix=photo");
+
+            // Open a HTTP  connection to  the URL
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setDoInput(true); // Allow Inputs
+            conn.setDoOutput(true); // Allow Outputs
+            conn.setUseCaches(false); // Don't use a Cached Copy
             conn.setRequestMethod("POST");
             conn.setRequestProperty("Connection", "Keep-Alive");
             conn.setRequestProperty("ENCTYPE", "multipart/form-data");
-            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary="+boundary);
-            conn.setRequestProperty("uploaded_file", iFileName);
+            conn.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + boundary);
+            conn.setRequestProperty("uploaded_file", nomImage);
 
-            DataOutputStream dos = new DataOutputStream(conn.getOutputStream());
-            dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";" +
-                    "filename=\"" + iFileName +"\"" + lineEnd);
+            dos = new DataOutputStream(conn.getOutputStream());
+
+            dos.writeBytes(twoHyphens + boundary + lineEnd);
+            dos.writeBytes("Content-Disposition: form-data; name=\"uploaded_file\";filename=\""
+                            + nomImage + "\"" + lineEnd);
             dos.writeBytes(lineEnd);
 
-            FileInputStream fileInputStream = new FileInputStream(new File(cheminDurImage));
-            int bytesAvailable = fileInputStream.available();
+            // create a buffer of  maximum size
+            bytesAvailable = fileInputStream.available();
+            bufferSize = Math.min(bytesAvailable, maxBufferSize);
+            buffer = new byte[bufferSize];
 
-            int maxBufferSize = 1024;
-            int bufferSize = Math.min(bytesAvailable, maxBufferSize);
-            byte[] buffer = new byte[bufferSize];
-            int bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+            // read file and write it into form...
+            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
 
             while (bytesRead > 0) {
                 dos.write(buffer, 0, bufferSize);
                 bytesAvailable = fileInputStream.available();
-                bufferSize = Math.min(bytesAvailable,maxBufferSize);
-                bytesRead = fileInputStream.read(buffer, 0,bufferSize);
+                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
             }
+
+            // send multipart form data necesssary after file data...
             dos.writeBytes(lineEnd);
             dos.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
 
-            fileInputStream.close();
-            dos.flush();
-
-            Log.d("upload photo", "fichier envoye, reponse:" + String.valueOf(conn.getResponseCode()));
-
-            InputStream is = conn.getInputStream();
-
+            // retrieve the response from server
             int ch;
+            InputStream is = conn.getInputStream();
             StringBuffer b =new StringBuffer();
             while( ( ch = is.read() ) != -1 ) {
                 b.append( (char)ch );
             }
-            String s=b.toString();
-            int reponse = Integer.parseInt(s.substring(s.length() - 1));
-            Log.d("Reponse:","" + reponse);
+            String s = b.toString();
+            Log.i("Response", s);
+
+            //close the streams //
+            fileInputStream.close();
+            dos.flush();
             dos.close();
+            is.close();
             return true;
         } catch (Exception e) {
             e.printStackTrace();
             return false;
         }
-    }*/
+
+    }
 
 }

@@ -2,6 +2,7 @@ package com.m2dl.miniprojet.miniandroidter.activites;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -26,7 +27,7 @@ public class EndroitActivite extends Activity {
     private Zone zone;
     private Photo photo;
 
-    private Button bZonePrec, bZoneSuiv, bPhotoPrec, bPhotoSuiv;
+    private Button bZonePrec, bZoneSuiv, bPhotoPrec, bPhotoSuiv, bEnregistrerSon, bEcouterSon;
     private TextView tDate, tTag, tZone, tPosteur, tSalle, tNumPhoto, tNumZone;
     private ImageView tPhotoPrise;
 
@@ -52,6 +53,8 @@ public class EndroitActivite extends Activity {
         bPhotoSuiv = (Button) findViewById(R.id.activite_endroit_photo_suivante);
         tNumPhoto = (TextView) findViewById(R.id.activite_endroit_num_photo);
         tNumZone = (TextView) findViewById(R.id.activite_endroit_num_zone);
+        bEnregistrerSon = (Button) findViewById(R.id.activite_endroit_bouton_enregistrer_son);
+        bEcouterSon = (Button) findViewById(R.id.activite_endroit_bouton_ecouter_son);
 
         // Une activite m'a passe une photo
         String cheminPhoto = getIntent().getExtras().getString(CHEMIN_PHOTO_ENDROIT);
@@ -94,7 +97,7 @@ public class EndroitActivite extends Activity {
         tTag.setText(photo.getTag().toString());
         tPosteur.setText(photo.getPosteur().toString());
         tPhotoPrise.setBackgroundColor(Color.GRAY);
-        tPhotoPrise.setBackgroundDrawable(photo.getDrawable());
+        tPhotoPrise.setBackgroundDrawable(new BitmapDrawable(photo.getBitmap()));
         tNumPhoto.setText((listePhoto.indexOf(photo) + 1) + "/" + listePhoto.size());
         actualiserBoutons();
     }

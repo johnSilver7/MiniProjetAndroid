@@ -2,12 +2,18 @@ package com.m2dl.miniprojet.miniandroidter.activites;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.m2dl.miniprojet.miniandroidter.domaine.Campus;
 import com.m2dl.miniprojet.miniandroidter.domaine.Photo;
@@ -30,6 +36,8 @@ public class PrincipaleActivite extends Activity {
     private final static int REQUETE_PRENDRE_PHOTO = 1;
 
     private Button bSeDeconnecter;
+    private TextView textViewChargement;
+    private RelativeLayout layoutPere;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +52,50 @@ public class PrincipaleActivite extends Activity {
             StrictMode.setThreadPolicy(policy);
         }
 
+        layoutPere = (RelativeLayout) findViewById(R.id.activite_principale_layout_pere);
         bSeDeconnecter = (Button) findViewById(R.id.activite_principale_bouton_deconnecter);
 
+        afficherChargement(true);
+
         Campus.init();
-        recupererBaseDonnees();
-        seConnecterSiPossible();
-        afficherBoutonSeDeconnecter();
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                recupererBaseDonnees();
+                afficherChargement(false);
+                seConnecterSiPossible();
+                afficherBoutonSeDeconnecter();
+            }
+        }, 100);
+    }
+
+    private void afficherChargement(boolean charge) {
+        for (int i = 0; i < layoutPere.getChildCount(); i++) {
+            layoutPere.getChildAt(i).
+                    setVisibility(charge ? View.INVISIBLE : View.VISIBLE);
+            layoutPere.getChildAt(i).setEnabled(!charge);
+        }
+        if (charge) {
+            // Recuperation des dimensions de l'ecran
+            DisplayMetrics dm = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(dm);
+
+            textViewChargement = new TextView(this);
+            layoutPere.addView(textViewChargement);
+            textViewChargement.getLayoutParams().width = dm.widthPixels;
+            textViewChargement.getLayoutParams().height = dm.heightPixels;
+            textViewChargement.setGravity(Gravity.CENTER);
+            textViewChargement.setTextSize(40);
+            textViewChargement.setTypeface(null, Typeface.BOLD);
+            textViewChargement.setTextColor(Color.WHITE);
+            textViewChargement.setX(0);
+            textViewChargement.setY(0);
+            textViewChargement.setText("Chargement ...");
+        } else {
+            layoutPere.removeView(textViewChargement);
+        }
     }
 
     private void afficherBoutonSeDeconnecter() {

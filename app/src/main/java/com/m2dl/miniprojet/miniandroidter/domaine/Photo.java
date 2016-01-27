@@ -1,5 +1,6 @@
 package com.m2dl.miniprojet.miniandroidter.domaine;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 import com.m2dl.miniprojet.miniandroidter.services.ServeurService;
@@ -22,10 +23,10 @@ public class Photo {
     private Tag tag;
     private Zone zone;
     private Utilisateur posteur;
-    private Drawable drawable;
+    private Bitmap bitmap;
 
     public static String PATH = "";
-    public final static String NOM_PHOTO_TEMP = "photo.jpg";
+    public final static String NOM_PHOTO_TEMP = "photo.jpeg";
 
     private static List<Photo> listePhoto = new ArrayList<>();
 
@@ -45,7 +46,7 @@ public class Photo {
             this.tag = Tag.getTag(jsonData.getString("tag"));
             this.zone = Zone.getZone(jsonData.getString("zone"));
             this.posteur = Utilisateur.getUtilisateur(jsonData.getString("posteur"));
-            this.drawable = ServeurService.getImageDrawable(image);
+            this.bitmap = ServeurService.getImageBitmap(image);
             this.zone.ajouterListePhoto(this);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -81,8 +82,8 @@ public class Photo {
         return null;
     }
 
-    public Drawable getDrawable() {
-        return this.drawable;
+    public Bitmap getBitmap() {
+        return this.bitmap;
     }
 
     public static List<Photo> getListePhoto() {
@@ -96,18 +97,23 @@ public class Photo {
     }
 
     public void sauvegarderEnBase() {
+        ajouterPhoto(this); // ajout local
         try {
-            JSONObject jsonObject = new JSONObject();
+            final JSONObject jsonObject = new JSONObject();
             jsonObject.put("image", image);
             jsonObject.put("date", date.getTime());
             jsonObject.put("tag", Tag.toString(tag));
             jsonObject.put("zone", zone.toString());
             jsonObject.put("posteur", posteur.getPseudo());
-            ServeurService.sauvegarder("Photo", jsonObject);
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ServeurService.sauvegarder("Photo", jsonObject);
+                }
+            }).start();
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        ajouterPhoto(this); // ajout local
     }
 
     public static void setListeAPartirDeJsonArray(JSONArray jsonArray) {
@@ -121,8 +127,8 @@ public class Photo {
         }
     }
 
-    public void setDrawable(Drawable drawable) {
-        this.drawable = drawable;
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
     }
 
     private String getImageUnique() {
