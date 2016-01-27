@@ -75,6 +75,7 @@ public class PrincipaleActivite extends Activity {
     public void onClickSeDeconnecter(View view) {
         Utilisateur.utilisateurConnecte = null;
         afficherBoutonSeDeconnecter();
+        FichierService.ecrireDansFichier("");
     }
 
     public void onClickPrendrePhoto(View view) {

@@ -34,6 +34,7 @@ import android.widget.Spinner;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.m2dl.miniprojet.miniandroidter.domaine.Campus;
 import com.m2dl.miniprojet.miniandroidter.domaine.Photo;
@@ -125,12 +126,12 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
 
     public void desabonnementGPS() throws SecurityException {
         locationManager.removeUpdates(this);
-        tGeo.setText(GEOLOCALISE_NON);
+        afficherGeolocalisation(false);
     }
 
     private void preRemplirLesChamps() {
         tTitre.setText("Bonjour " + Utilisateur.utilisateurConnecte.getPseudo() + " !");
-        tGeo.setText(GEOLOCALISE_NON);
+        afficherGeolocalisation(false);
         tDate.setText(DateOutils.toStringDate(new Date().getTime()));
 
         sTag.setAdapter(new ArrayAdapter<>(
@@ -160,8 +161,8 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
         if (imagePhotoPrise == null) {
             builder.setMessage("Vous devez prendre une photo.");
             builder.setNeutralButton("OK", null);
-        } else if (tGeo.getText().equals(GEOLOCALISE_NON) &&
-                sZone.getSelectedItem().equals(TITRE_CREATION_NOUVELLE_ZONE)) {
+        } else if (((String) tGeo.getText()).equals(GEOLOCALISE_NON) &&
+                ((String) sZone.getSelectedItem()).equals(TITRE_CREATION_NOUVELLE_ZONE)) {
             // Demande d'etre geolocalise seulement pour une nouvelle zone.
             builder.setMessage("Vous devez être géolocalisé.");
             builder.setNeutralButton("OK", null);
@@ -169,7 +170,7 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
                         Geolocalisation.latitude, Geolocalisation.longitude))) {
             builder.setMessage("Vous devez être dans le campus.");
             builder.setNeutralButton("OK", null);
-        } else if (sZone.getSelectedItem().equals(TITRE_CREATION_NOUVELLE_ZONE)) {
+        } else if (((String) sZone.getSelectedItem()).equals(TITRE_CREATION_NOUVELLE_ZONE)) {
             final EditText eTitreZone = new EditText(this);
             final EditText eSalleZone = new EditText(this);
             builder.setView(getFormulaireCreationZone(eTitreZone, eSalleZone));
@@ -177,15 +178,24 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
             builder.setPositiveButton("Créer", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
+                    // Recuperation du formulaire
                     String titreNouvelleZone = eTitreZone.getText().toString();
                     String salleNouvelleZone = eSalleZone.getText().toString();
-                    Zone nouvelleZone = new Zone(titreNouvelleZone, salleNouvelleZone,
-                            new Point(Geolocalisation.latitude, Geolocalisation.longitude));
-                    if (!Zone.getListeZone().contains(nouvelleZone)) {
-                        nouvelleZone.sauvegarderEnBase();
+
+                    if (titreNouvelleZone != null && !titreNouvelleZone.equals("") &&
+                            salleNouvelleZone != null && !salleNouvelleZone.equals("")) {
+                        // Formulaire bien rempli
+                        Zone nouvelleZone = new Zone(titreNouvelleZone, salleNouvelleZone,
+                                new Point(Geolocalisation.latitude, Geolocalisation.longitude));
+                        if (!Zone.getListeZone().contains(nouvelleZone)) {
+                            nouvelleZone.sauvegarderEnBase();
+                        }
+                        actualiserSpinnerZone();
+                        sZone.setSelection(sZone.getCount() - 1);
+                    } else {
+                        Toast.makeText(PrendrePhotoActivite.this,
+                                "Echec: création nouvelle zone.", Toast.LENGTH_LONG).show();
                     }
-                    actualiserSpinnerZone();
-                    sZone.setSelection(sZone.getCount() - 1);
                 }
             });
         } else {
@@ -193,8 +203,7 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
             Zone zone = Zone.getZone((String) sZone.getSelectedItem());
             Tag tag = Tag.getTag((String) sTag.getSelectedItem());
             Date date = DateOutils.getDate(tDate.getText().toString());
-            Photo photo = new Photo(photoPrise.getAbsolutePath(),
-                    date, tag, zone, Utilisateur.utilisateurConnecte);
+            Photo photo = new Photo(date, tag, zone, Utilisateur.utilisateurConnecte);
 
             photo.setDrawable(imagePhotoPrise);
             photo.sauvegarderEnBase();
@@ -322,6 +331,11 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
         }
     }
 
+    private void afficherGeolocalisation(boolean affiche) {
+        boolean geolocalise = (Geolocalisation.latitude != 0.0);
+        tGeo.setText(!geolocalise ? GEOLOCALISE_NON : GEOLOCALISE_OUI);
+    }
+
     @Override
     public void onBackPressed() {
         imagePhotoPrise = null;
@@ -332,7 +346,7 @@ public class PrendrePhotoActivite extends Activity implements LocationListener {
     public void onLocationChanged(Location location) {
         Geolocalisation.latitude = location.getLatitude();
         Geolocalisation.longitude = location.getLongitude();
-        tGeo.setText(GEOLOCALISE_OUI);
+        afficherGeolocalisation(true);
     }
 
     @Override

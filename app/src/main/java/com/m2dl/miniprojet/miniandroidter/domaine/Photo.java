@@ -9,6 +9,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -24,12 +25,12 @@ public class Photo {
     private Drawable drawable;
 
     public static String PATH = "";
-    public final static String NOM_PHOTO_TEMP = "photo.png";
+    public final static String NOM_PHOTO_TEMP = "photo.jpg";
 
     private static List<Photo> listePhoto = new ArrayList<>();
 
-    public Photo(String image, Date date, Tag tag, Zone zone, Utilisateur posteur) {
-        this.image = image;
+    public Photo(Date date, Tag tag, Zone zone, Utilisateur posteur) {
+        this.image = getImageUnique();
         this.date = date;
         this.tag = tag;
         this.zone = zone;
@@ -39,12 +40,12 @@ public class Photo {
 
     public Photo(JSONObject jsonData) {
         try {
-            this.image = jsonData.getString("image");
             this.date = new Date(Long.parseLong(jsonData.getString("date")));
+            this.image = jsonData.getString("image");
             this.tag = Tag.getTag(jsonData.getString("tag"));
             this.zone = Zone.getZone(jsonData.getString("zone"));
             this.posteur = Utilisateur.getUtilisateur(jsonData.getString("posteur"));
-            // TODO recuperer drawable de la photo
+            this.drawable = ServeurService.getImageDrawable(image);
             this.zone.ajouterListePhoto(this);
         } catch (JSONException e) {
             e.printStackTrace();
@@ -122,6 +123,21 @@ public class Photo {
 
     public void setDrawable(Drawable drawable) {
         this.drawable = drawable;
+    }
+
+    private String getImageUnique() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(new Date().getTime());
+
+        int jour = calendar.get(Calendar.DAY_OF_MONTH);
+        int mois = calendar.get(Calendar.MONTH) + 1;
+        int annee = calendar.get(Calendar.YEAR );
+
+        int heure = calendar.get(Calendar.HOUR_OF_DAY);
+        int minute = calendar.get(Calendar.MINUTE);
+        int seconde = calendar.get(Calendar.SECOND);
+
+        return jour + "" + mois + "" + annee + "" + heure + "" + minute + "" + seconde + ".jpg";
     }
 
 }

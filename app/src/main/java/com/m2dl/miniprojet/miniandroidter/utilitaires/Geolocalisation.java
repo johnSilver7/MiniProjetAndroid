@@ -5,6 +5,6 @@ package com.m2dl.miniprojet.miniandroidter.utilitaires;
  */
 public class Geolocalisation {
 
-    public static double latitude, longitude;
+    public static double latitude = 0.0, longitude = 0.0;
 
 }
